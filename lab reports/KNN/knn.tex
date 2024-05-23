@@ -1,0 +1,156 @@
+\documentclass[12pt]{article}
+\usepackage[UTF8]{ctex}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx} % For including figures
+\usepackage{amsmath}  % For math fonts, symbols and environments
+\usepackage{pgfgantt} % For Gantt charts
+\usepackage[hidelinks]{hyperref} % For hyperlinks
+\usepackage{enumitem} % For customizing lists
+\definecolor{blue}{HTML}{74BBC9}
+\definecolor{yellow}{HTML}{F7E967}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tocloft} % 导入tocloft包
+\usepackage{zi4}
+\usepackage{fontspec}
+
+\usepackage{graphicx} % For including graphics
+\usepackage{booktabs} % For professional looking tables
+\usepackage{array}    % For extended column definitions
+\usepackage{amsmath}  % For math environments like 'equation'
+\usepackage{amsfonts} % For math fonts like '\mathbb{}'
+\usepackage{amssymb}  % For math symbols
+\usepackage{caption}  % For custom captions
+\usepackage[table]{xcolor} % For coloring tables
+% 目录标题样式定义
+\renewcommand{\cfttoctitlefont}{\hfill\Large\bfseries}
+\renewcommand{\cftaftertoctitle}{\hfill\mbox{}\par}
+
+% Monokai theme with a lighter background
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\setmonofont{Source Code Pro}[Contextuals={Alternate}]
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+
+
+
+\title{\textbf{PR Experiment 1 Experiment Report}}
+\author{58122204 谢兴}
+\date{\today}
+
+\begin{document}
+
+
+\begin{titlepage}
+
+  \begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.2]{figures/southeast_university_logo.png}
+    % \caption{实际投掷距离与理想条件下投掷距离对比}
+    \label{fig1}
+  \end{figure}
+
+
+  \centering
+  \vspace*{40pt}
+  \Huge\textbf{模式识别实验报告}
+
+  \vspace{60pt}
+  \Large
+  实验题目：KNN
+
+  \vspace{25pt}
+  学院：计算机科学院工程学院、软件学院、人工智能学院
+
+  \vspace{25pt}
+  专业：人工智能
+
+  \vspace{25pt}
+  姓名：谢兴
+
+  \vspace{25pt}
+  学号：58122204
+
+  \vspace{25pt}
+  完成日期：2024年5月26日
+
+  \vspace{25pt}
+  指导老师：薛晖
+
+
+
+
+
+\end{titlepage}
+
+
+\newpage
+\tableofcontents
+
+
+\section*{实验目的}
+This assignment is intended to learn how to create, work with and manipulate processes in Linux.
+You are expected to refer to the text book and references mentioned in the course website before you start the lab.
+
+
+
+
+
+
+
+\newpage
+% 开始附录部分
+\appendix
+% 手动添加附录到目录中
+\addcontentsline{toc}{section}{附录A}
+\section*{实验内容一Code}
+% 附录内容...
+% ... 附录内容 ...
+\subsection*{cpu\_bound.c}
+\begin{lstlisting}[language=C]
+#include <stdio.h>
+
+// Function to calculate factorial
+unsigned long long factorial(int n) {
+    if (n == 0) return 1;
+    return n * factorial(n - 1);
+}
+
+int main() {
+    int num = 10;  // A small number to keep calculations quick but repetitive
+
+    while(1) {
+        factorial(num);
+    }
+
+    return 0;
+}
+
+\end{lstlisting}
+
+
+
+\end{document}
