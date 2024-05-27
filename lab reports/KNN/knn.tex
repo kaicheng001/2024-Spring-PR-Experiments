@@ -1,5 +1,6 @@
 \documentclass[12pt]{article}
 \usepackage[UTF8]{ctex}
+\usepackage{xeCJK}
 \usepackage[margin=1in]{geometry}
 \usepackage{graphicx} % For including figures
 \usepackage{amsmath}  % For math fonts, symbols and environments
@@ -13,18 +14,32 @@
 \usepackage{tocloft} % 导入tocloft包
 \usepackage{zi4}
 \usepackage{fontspec}
+\usepackage{setspace} % For setting line spacing
 
-\usepackage{graphicx} % For including graphics
 \usepackage{booktabs} % For professional looking tables
 \usepackage{array}    % For extended column definitions
-\usepackage{amsmath}  % For math environments like 'equation'
 \usepackage{amsfonts} % For math fonts like '\mathbb{}'
 \usepackage{amssymb}  % For math symbols
 \usepackage{caption}  % For custom captions
 \usepackage[table]{xcolor} % For coloring tables
+
 % 目录标题样式定义
 \renewcommand{\cfttoctitlefont}{\hfill\Large\bfseries}
 \renewcommand{\cftaftertoctitle}{\hfill\mbox{}\par}
+
+% 设置中文主字体为宋体，指定相对路径
+\setCJKmainfont[
+    Path = ./,
+    BoldFont = SimSun.ttc,
+    ItalicFont = SimSun.ttc
+]{SimSun.ttc}
+
+% 设置英文主字体为Times New Roman
+\setmainfont{Times New Roman}
+
+% 设置正文格式：宋体，小四，行距20磅
+\renewcommand\normalsize{%
+    \CJKfamily{song}\fontsize{12pt}{20pt}\selectfont}
 
 % Monokai theme with a lighter background
 \definecolor{codegreen}{rgb}{0,0.6,0}
@@ -54,25 +69,19 @@
 
 \lstset{style=mystyle}
 
-
-
-
 \title{\textbf{PR Experiment 1 Experiment Report}}
 \author{58122204 谢兴}
 \date{\today}
 
 \begin{document}
 
-
 \begin{titlepage}
-
-  \begin{figure}[htbp]
-    \centering
-    \includegraphics[scale=0.2]{figures/southeast_university_logo.png}
-    % \caption{实际投掷距离与理想条件下投掷距离对比}
-    \label{fig1}
-  \end{figure}
-
+  % \begin{figure}[htbp]
+  %   \centering
+  %   \includegraphics[scale=0.2]{figures/southeast_university_logo.png}
+  %   % \caption{实际投掷距离与理想条件下投掷距离对比}
+  %   \label{fig1}
+  % \end{figure}
 
   \centering
   \vspace*{40pt}
@@ -99,27 +108,29 @@
 
   \vspace{25pt}
   指导老师：薛晖
-
-
-
-
-
 \end{titlepage}
-
 
 \newpage
 \tableofcontents
 
-
 \section*{实验目的}
-This assignment is intended to learn how to create, work with and manipulate processes in Linux.
-You are expected to refer to the text book and references mentioned in the course website before you start the lab.
+利用KNN算法，对 Iris 鸢尾花数据集中的测试集进行分类。
 
+\section{任务说明}
+\begin{enumerate}
+  \item 利用欧式距离作为KNN算法的度量函数，对测试集进行分类。实验报告中，要求在验证集上分析近邻数$k$对KNN算法分类精度的影响。
+  \item 利用马氏距离作为KNN算法的度量函数，对测试集进行分类。马氏距离是一种可学习的度量函数，详情请参考课题说明文档。注意：实验报告中请对优化过程的梯度计算公式进行推导。
+  \item 基于MindSpore平台提供的官方模型库，对相同的数据集进行训练，并与自己独立实现的算法对比结果（包括但不限于准确率、算法迭代收敛次数等指标），并分析结果中出现差异的可能原因，给出使用MindSpore的心得和建议。
+  \item （加分项）使用MindSpore平台提供的相似任务数据集（例如，其他的分类任务数据集）测试自己独立实现的算法并与MindSpore平台上的官方实现算法进行对比，并进一步分析差异及其成因。
+\end{enumerate}
 
+\section{问题描述}
 
+\section{实验步骤与流程}
 
+\section{实验结果与分析}
 
-
+\section{实验心得体会}
 
 \newpage
 % 开始附录部分
@@ -127,30 +138,9 @@ You are expected to refer to the text book and references mentioned in the cours
 % 手动添加附录到目录中
 \addcontentsline{toc}{section}{附录A}
 \section*{实验内容一Code}
-% 附录内容...
-% ... 附录内容 ...
-\subsection*{cpu\_bound.c}
-\begin{lstlisting}[language=C]
-#include <stdio.h>
 
-// Function to calculate factorial
-unsigned long long factorial(int n) {
-    if (n == 0) return 1;
-    return n * factorial(n - 1);
-}
-
-int main() {
-    int num = 10;  // A small number to keep calculations quick but repetitive
-
-    while(1) {
-        factorial(num);
-    }
-
-    return 0;
-}
+\begin{lstlisting}[language=Python]
 
 \end{lstlisting}
-
-
 
 \end{document}
