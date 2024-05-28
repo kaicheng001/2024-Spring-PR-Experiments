@@ -23,6 +23,9 @@
 \usepackage{caption}  % For custom captions
 \usepackage[table]{xcolor} % For coloring tables
 \usepackage{tabularx} % For auto-sized table columns
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{enumitem}
 
 % 目录标题样式定义
 \renewcommand{\cfttoctitlefont}{\hfill\Large\bfseries}
@@ -171,24 +174,236 @@
   \item 利用马氏距离作为KNN算法的度量函数，对测试集
         进行分类。
   \item 基于MindSpore平台提供的官方模型库，对相同的
-  数据集进行训练，并与自己独立实现的算法对比结
-  果（包括但不限于准确率、算法迭代收敛次数等指
-  标），并分析结果中出现差异的可能原因，给出使
-  用MindSpore的心得和建议。
+        数据集进行训练，并与自己独立实现的算法对比结
+        果（包括但不限于准确率、算法迭代收敛次数等指
+        标），并分析结果中出现差异的可能原因，给出使
+        用MindSpore的心得和建议。
   \item （加分项）使用MindSpore平台提供的相似任务数
-  据集（例如，其他的分类任务数据集）测试自己独
-  立实现的算法并与MindSpore平台上的官方实现算
-  法进行对比，并进一步分析差异及其成因。
+        据集（例如，其他的分类任务数据集）测试自己独
+        立实现的算法并与MindSpore平台上的官方实现算
+        法进行对比，并进一步分析差异及其成因。
 \end{enumerate}
 
 \subsection{实现步骤与流程}
 
+\subsubsection{实验思路}
+\begin{enumerate}
+  \item 导入必要的库，包括 \texttt{numpy}, \texttt{pandas}, \texttt{matplotlib}, \texttt{plotly} 和 \texttt{seaborn}；
+  \item 数据加载和基本信息显示；
+        \begin{enumerate}
+          \item 从 \texttt{data/train.csv} 文件中加载训练数据集
+          \item 显示数据集的前几行数据
+          \item 显示数据集的描述性统计信息
+          \item 显示数据集的基本信息，包括数据类型和缺失值情况
+        \end{enumerate}
+  \item 数据可视化；
+        \begin{enumerate}
+          \item 使用 \texttt{Seaborn} 绘制数据集的特征两两关系图，并按标签着色
+          \item 使用 \texttt{Plotly} 绘制数据分布的饼图
+          \item 分别绘制每个特征（萼片长度、萼片宽度、花瓣长度、花瓣宽度）的箱线图和直方图
+        \end{enumerate}
+  \item 实现基于Euiclidean距离和基于Mahalanobis距离的KNN算法；
+
+  \item 数据处理和预测；
+        \begin{enumerate}
+          \item 加载测试数据集并进行必要的类型转换和缺失值检查
+          \item 使用预训练模型对测试数据进行预测，并将预测结果保存到 \texttt{CSV} 文件中
+        \end{enumerate}
+  \item 最后对比欧式距离和马氏距离两种度量方式的分类效果和差异
+        \begin{enumerate}
+          \item 比较多个预测结果文件 \texttt{task1\_test\_prediction.csv} 和\\ \texttt{task2\_test\_prediction.csv}之间的差异，
+                找出不同的行和列，并打印出不同值的位置
+        \end{enumerate}
+\end{enumerate}
+
+\subsubsection{数学模型}
+KNN算法的数学模型如下：
+
+给定一个测试样本$x$，KNN算法通过计算$x$与训练集中所有样本之间的距离（常用欧氏距离），选择距离最近的$k$个样本，然后通过多数投票法决定$x$的类别。
+欧氏距离的计算公式为：
+\[
+  d(x_1, x_2) = \sqrt{\sum_{i=1}^{n} (x_{1i} - x_{2i})^2}
+\]
+
+马氏距离的计算公式为：
+\[d(x_1, x_2) = \sqrt{(x_1 - x_2)^T \Sigma^{-1} (x_1 - x_2)}\]
+其中，$\Sigma$为协方差矩阵。
+
+
+\subsubsection{关键难点}
+\begin{enumerate}
+  \item 如何高效地计算欧氏距离。
+  \item 如何在较大的数据集上进行快速的邻居搜索。
+  \item 如何处理训练数据和测试数据的维度一致性问题。
+  \item 如何在分类时处理类别不均衡的问题。
+\end{enumerate}
+
+
+\subsubsection{算法描述}
+基于Euiclidean距离和Mahalanobis距离的KNN算法的伪代码分别
+见算法~\ref{K-Nearest Neighbors Based on Euclidean Distance} 和算法~\ref{K-Nearest Neighbors Based on Mahalanobis Distance}。
+
+\begin{algorithm}
+  \caption{K-Nearest Neighbors Based on Euclidean Distance}
+  \label{K-Nearest Neighbors Based on Euclidean Distance}
+  \begin{algorithmic}[1]
+    \State 初始化KNN分类器，邻居数为$k$
+    \Procedure{拟合}{X\_train, y\_train}
+    \State 存储训练数据和标签
+    \EndProcedure
+    \Procedure{预测}{$X$}
+    \For{每个测试数据$x$}
+    \State 计算$x$与所有训练样本之间的欧氏距离
+    \State 对距离进行排序，选择最近的$k$个邻居
+    \State 对这$k$个邻居的标签进行多数投票
+    \State 将多数投票结果赋予$x$
+    \EndFor
+    \State \Return 预测的标签
+    \EndProcedure
+  \end{algorithmic}
+\end{algorithm}
+
+
+\begin{algorithm}
+  \caption{K-Nearest Neighbors Based on Mahalanobis Distance}
+  \label{K-Nearest Neighbors Based on Mahalanobis Distance}
+  \begin{algorithmic}[1]
+    \State 初始化KNN分类器，邻居数为$k$，矩阵$A$的维度为$e$，学习率为$\eta$，最大迭代次数为$max\_iter$
+    \Procedure{拟合}{$X_{train}, y_{train}$}
+    \State 存储训练数据和标签
+    \State 初始化矩阵$A$为随机值
+    \For{迭代次数 $iteration = 1, 2, \ldots, max\_iter$}
+    \State 初始化梯度矩阵$\nabla A$为零
+    \For{每个训练样本 $x_i$}
+    \State 获取与$x_i$同类的样本索引$same\_class\_indices$
+    \For{每个同类样本 $x_j$}
+    \If{$i == j$}
+    \State 跳过
+    \EndIf
+    \State 计算$p_{ij}$值
+    \State 计算样本差异$diff = x_i - x_j$
+    \State 更新梯度$\nabla A += 2 \cdot p_{ij} \cdot (A \cdot diff) \cdot diff^T$
+    \EndFor
+    \EndFor
+    \State 按学习率更新矩阵$A$: $A = A - \eta \cdot \nabla A / n$
+    \EndFor
+    \EndProcedure
+    \Procedure{预测}{$X$}
+    \For{每个测试数据$x$}
+    \State 计算$x$与所有训练样本之间的马氏距离
+    \State 对距离进行排序，选择最近的$k$个邻居
+    \State 对这$k$个邻居的标签进行多数投票
+    \State 将多数投票结果赋予$x$
+    \EndFor
+    \State \Return 预测的标签
+    \EndProcedure
+  \end{algorithmic}
+\end{algorithm}
+
+\subsubsection{马氏距离梯度计算公式推导}
+
+假设我们有训练数据集$\{(x_i, y_i)\}_{i=1}^n$，其中$x_i \in \mathbb{R}^d$为样本特征，$y_i$为样本类别。为了优化马氏距离下的KNN算法，我们需要学习一个矩阵$A \in \mathbb{R}^{e \times d}$，使得同类样本之间的距离最小化。马氏距离的计算公式为：
+\begin{equation}
+  d_M(x_i, x_j) = \sqrt{(x_i - x_j)^\top A^\top A (x_i - x_j)}
+\end{equation}
+
+为了优化矩阵$A$，我们使用如下的目标函数：
+\begin{equation}
+  \mathcal{L} = \sum_{i=1}^n \sum_{j \in \mathcal{N}(i)} p_{ij} \cdot d_M^2(x_i, x_j)
+\end{equation}
+其中，$\mathcal{N}(i)$表示与$x_i$同类的样本索引集合，$p_{ij}$为权重，定义为：
+\begin{equation}
+  p_{ij} = \frac{\exp(-d_M^2(x_i, x_j))}{\sum_{k \in \mathcal{N}(i)} \exp(-d_M^2(x_i, x_k))}
+\end{equation}
+
+首先，我们对$d_M^2(x_i, x_j)$进行展开：
+\begin{equation}
+  d_M^2(x_i, x_j) = (x_i - x_j)^\top A^\top A (x_i - x_j)
+\end{equation}
+
+为了计算梯度$\nabla_A \mathcal{L}$，我们需要对$\mathcal{L}$关于$A$求导：
+\begin{equation}
+  \mathcal{L} = \sum_{i=1}^n \sum_{j \in \mathcal{N}(i)} p_{ij} (x_i - x_j)^\top A^\top A (x_i - x_j)
+\end{equation}
+
+对$A$求导时，需要使用链式法则：
+\begin{equation}
+  \frac{\partial \mathcal{L}}{\partial A} = \sum_{i=1}^n \sum_{j \in \mathcal{N}(i)} \left( \frac{\partial p_{ij}}{\partial A} (x_i - x_j)^\top A^\top A (x_i - x_j) + p_{ij} \frac{\partial ((x_i - x_j)^\top A^\top A (x_i - x_j))}{\partial A} \right)
+\end{equation}
+
+首先计算$p_{ij}$对$A$的导数。由于$p_{ij}$包含在指数函数内，我们得到：
+\begin{equation}
+  \frac{\partial p_{ij}}{\partial A} = p_{ij} \left( -\sum_{k \in \mathcal{N}(i)} p_{ik} \cdot 2(x_i - x_k)^\top A^\top \cdot (x_i - x_k) + 2(x_i - x_j)^\top A^\top \cdot (x_i - x_j) \right)
+\end{equation}
+
+然后计算$(x_i - x_j)^\top A^\top A (x_i - x_j)$对$A$的导数：
+\begin{equation}
+  \frac{\partial ((x_i - x_j)^\top A^\top A (x_i - x_j))}{\partial A} = 2 A (x_i - x_j) (x_i - x_j)^\top
+\end{equation}
+
+将以上结果代入梯度公式中，我们得到：
+\begin{equation}
+  \begin{aligned}
+    \nabla_A \mathcal{L} = & \sum_{i=1}^n \sum_{j \in \mathcal{N}(i)} \left[ p_{ij} \left( -\sum_{k \in \mathcal{N}(i)} p_{ik} \cdot 2(x_i - x_k)^\top A^\top \cdot (x_i - x_k) \right. \right. \\
+                           & \left. \left. + 2(x_i - x_j)^\top A^\top \cdot (x_i - x_j) \right) + 2 p_{ij} A (x_i - x_j) (x_i - x_j)^\top \right]
+  \end{aligned}
+\end{equation}
+
+整理后得到最终的梯度公式：
+\begin{equation}
+  \nabla_A \mathcal{L} = 2 \sum_{i=1}^n \sum_{j \in \mathcal{N}(i)} p_{ij} \left[ A (x_i - x_j) (x_i - x_j)^\top - \sum_{k \in \mathcal{N}(i)} p_{ik} A (x_i - x_k) (x_i - x_k)^\top \right]
+\end{equation}
+
+
 \subsection{实验结果与分析}
+\subsubsection{数据集的部分可视化分析}
+\begin{enumerate}
+  \item \texttt{train.csv}文件中训练数据的pairplot图如图~\ref{fig:pairplot}所示。
+  \item 训练数据的分布情况如图~\ref{fig:pie}所示，可以看出这三类鸢尾花的数据分布比例是不完全一致的，但三类的数据量大致相同。
+  \item
+\end{enumerate}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[scale=0.45]{figures/knn/pairplot.png}
+  \caption{train.csv训练数据的pairplot图}
+  \label{fig:pairplot}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[scale=0.4]{figures/knn/distribution.png}
+  \caption{train.csv训练数据分布比例}
+  \label{fig:pie}
+\end{figure}
+
+\subsubsection{实验结果的分析}
+
+\begin{enumerate}
+  \item 对于基于欧氏距离的KNN算法，当$k=3$时，测试集的准确率为93.33\%；
+  \item 对于基于马氏距离的KNN算法，当$k=3$时，测试集的准确率为93.33\%；
+  \item 将$k$从1到50遍历，分析出基于欧氏距离的KNN算法对Iris数据集进行分类的准确率随$k$的变化情况，如图~\ref{fig:accuracy}所示。
+\end{enumerate}
+显然，基于欧式距离的最佳$k$值为5或27或29，此时的准确率最高，为100\%，说明$k=5$，$k=27$，$k=29$时能完全正确的将Iris数据集中三类鸢尾花进行分类。
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[scale=0.8]{figures/knn/accuracy.png}
+  \caption{分类准确率随$k$的变化情况}
+  \label{fig:accuracy}
+\end{figure}
+
+
 
 \subsection{MindSpore 学习使用心得体会}
 
-\subsection{代码附录}
+\subsection{代码附录（数据加载可视化展示部分，具体见knn.ipynb文件）}
+\subsubsection{\texttt{knn.ipynb}}
+\begin{lstlisting}[language=Python]
+# 实验一代码
+\end{lstlisting}
 
+\subsubsection{\texttt{knn\_mindspore.ipynb}}
 \begin{lstlisting}[language=Python]
 # 实验一代码
 \end{lstlisting}
@@ -198,30 +413,42 @@
 \section{\centering 实验二 Na\"ive Bayes Classification}
 
 \subsection{问题描述}
-\subsection{概述}
+\subsubsection{概述}
 利用朴素贝叶斯算法，对MNIST数据集中的测试集
 进行分类。
-\subsection{任务说明}
+\subsubsection{任务说明}
 
 \begin{enumerate}
-    \item 在课程学习中同学们已经学习了贝叶斯分类理论并掌握了其基本原理，即利用贝叶斯公式
-    \[
-    p(\omega_j|x) = \frac{p(x|\omega_j)p(\omega_j)}{p(x)}
-    \]
-    对\(p(\omega_j|x)\)作出预测。由于\(p(x)\)为一固定值，所以一般不在计算过程中求得\(p(x)\)的具体值。在实际运用中，为了方便计算，通常假设数据特征之间相互独立，即
-    \[
-    p(x|\omega_j) = p(x_1|\omega_j) \cdot p(x_2|\omega_j) \cdots p(x_d|\omega_j), \quad x \in \mathbb{R}^d,
-    \]
-    这便是著名的朴素贝叶斯算法。
-    
-    \item MNIST数据集本身以二进制形式保存，所以首先需要选择合适的编程语言编写读写二进制数据的程序完成对图片、标记信息的初步提取工作。读取了图片信息后，发现每个像素点的值在[0,1]区间内，这是图像压缩后的结果，所以可以先将像素值乘以255再取整，得到每一个点的灰度值。将图像二值化，得到可以用于分类的28×28个特征向量以及对应的标签数据，之后便可以交由贝叶斯分类器进行学习。
-    
-    \item 基于MindSpore平台提供的官方模型库，对相同的数据集进行训练，并与自己独立实现的算法对比结果（包括但不限于准确率、算法迭代收敛次数等指标），并分析结果中出现差异的可能原因，给出使用MindSpore的心得和建议。
-    
-    \item （加分项）使用MindSpore平台提供的相似任务数据集（例如，其他的分类任务数据集）测试自己独立实现的算法并与MindSpore平台上的官方实现算法进行对比，并进一步分析差异及其成因。
+  \item 在课程学习中同学们已经学习了贝叶斯分类理论并掌握了其基本原理，即利用贝叶斯公式
+        \[
+          p(\omega_j|x) = \frac{p(x|\omega_j)p(\omega_j)}{p(x)}
+        \]
+        对\(p(\omega_j|x)\)作出预测。由于\(p(x)\)为一固定值，所以一般不在计算过程中求得\(p(x)\)的具体值。在实际运用中，为了方便计算，通常假设数据特征之间相互独立，即
+        \[
+          p(x|\omega_j) = p(x_1|\omega_j) \cdot p(x_2|\omega_j) \cdots p(x_d|\omega_j), \quad x \in \mathbb{R}^d,
+        \]
+        这便是著名的朴素贝叶斯算法。
+
+  \item MNIST数据集本身以二进制形式保存，所以首先需要选择合适的编程语言编写读写二进制数据的程序完成对图片、标记信息的初步提取工作。读取了图片信息后，发现每个像素点的值在[0,1]区间内，这是图像压缩后的结果，所以可以先将像素值乘以255再取整，得到每一个点的灰度值。将图像二值化，得到可以用于分类的28×28个特征向量以及对应的标签数据，之后便可以交由贝叶斯分类器进行学习。
+
+  \item 基于MindSpore平台提供的官方模型库，对相同的数据集进行训练，并与自己独立实现的算法对比结果（包括但不限于准确率、算法迭代收敛次数等指标），并分析结果中出现差异的可能原因，给出使用MindSpore的心得和建议。
+
+  \item （加分项）使用MindSpore平台提供的相似任务数据集（例如，其他的分类任务数据集）测试自己独立实现的算法并与MindSpore平台上的官方实现算法进行对比，并进一步分析差异及其成因。
 \end{enumerate}
 
 \subsection{实现步骤与流程}
+\subsubsection{实验思路}
+
+
+\subsubsection{数学模型}
+
+
+\subsubsection{关键难点}
+
+
+\subsubsection{算法描述}
+
+\subsubsection{}
 
 \subsection{实验结果与分析}
 
@@ -244,13 +471,24 @@
 \subsection{任务说明}
 \begin{enumerate}%[label=\(\Box\)]
   \item 基于神经网络模型及BP算法，根据训练集中的数据对你设计的神经网络模型进行训练，随后对给定的打乱的测试集中的数据进行分类。
-  
+
   \item 基于MindSpore平台提供的官方模型库，对相同的数据集进行训练，并与自己独立实现的算法对比结果（包括但不限于准确率、算法迭代收敛次数等指标），并分析结果中出现差异的可能原因。
-  
+
   \item （加分项）使用MindSpore平台提供的相似任务数据集（例如，其他的分类任务数据集）测试自己独立实现的算法并与MindSpore平台上的官方实现算法进行对比，并进一步分析差异及其成因。
 \end{enumerate}
 
 \subsection{实现步骤与流程}
+\subsubsection{实验思路}
+
+
+\subsubsection{数学模型}
+
+
+\subsubsection{关键难点}
+
+
+\subsubsection{算法描述}
+
 
 \subsection{实验结果与分析}
 

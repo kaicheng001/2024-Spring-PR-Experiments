@@ -1,0 +1,32 @@
+\contentsline {part}{I\hspace {1em}\centering 实验一 KNN Classification}{2}{part.1}%
+\contentsline {section}{\numberline {1}问题描述}{2}{section.1}%
+\contentsline {section}{\numberline {2}概述}{2}{section.2}%
+\contentsline {section}{\numberline {3}任务说明}{2}{section.3}%
+\contentsline {section}{\numberline {4}实现步骤与流程}{2}{section.4}%
+\contentsline {subsection}{\numberline {4.1}实验思路}{2}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}数学模型}{3}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}关键难点}{4}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}算法描述}{4}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}马氏距离梯度计算公式推导}{4}{subsection.4.5}%
+\contentsline {section}{\numberline {5}实验结果与分析}{7}{section.5}%
+\contentsline {subsection}{\numberline {5.1}数据集的部分可视化分析}{7}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}实验结果的分析}{8}{subsection.5.2}%
+\contentsline {section}{\numberline {6}MindSpore 学习使用心得体会}{8}{section.6}%
+\contentsline {section}{\numberline {7}代码附录}{8}{section.7}%
+\contentsline {part}{II\hspace {1em}\centering 实验二 Na\"ive Bayes Classification}{9}{part.2}%
+\contentsline {section}{\numberline {8}问题描述}{9}{section.8}%
+\contentsline {subsection}{\numberline {8.1}概述}{9}{subsection.8.1}%
+\contentsline {section}{\numberline {9}任务说明}{9}{section.9}%
+\contentsline {section}{\numberline {10}实现步骤与流程}{10}{section.10}%
+\contentsline {section}{\numberline {11}实验结果与分析}{10}{section.11}%
+\contentsline {section}{\numberline {12}MindSpore 学习使用心得体会}{10}{section.12}%
+\contentsline {section}{\numberline {13}代码附录}{10}{section.13}%
+\contentsline {part}{III\hspace {1em}\centering 实验三 Neural Network Image Classification}{11}{part.3}%
+\contentsline {section}{\numberline {14}问题描述}{11}{section.14}%
+\contentsline {section}{\numberline {15}概述}{11}{section.15}%
+\contentsline {section}{\numberline {16}任务说明}{11}{section.16}%
+\contentsline {section}{\numberline {17}实现步骤与流程}{12}{section.17}%
+\contentsline {section}{\numberline {18}实验结果与分析}{12}{section.18}%
+\contentsline {section}{\numberline {19}MindSpore 学习使用心得体会}{12}{section.19}%
+\contentsline {section}{\numberline {20}代码附录}{12}{section.20}%
+\contentsline {part}{IV\hspace {1em}\centering 心得体会}{13}{part.4}%
