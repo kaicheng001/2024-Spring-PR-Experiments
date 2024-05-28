@@ -22,6 +22,7 @@
 \usepackage{amssymb}  % For math symbols
 \usepackage{caption}  % For custom captions
 \usepackage[table]{xcolor} % For coloring tables
+\usepackage{tabularx} % For auto-sized table columns
 
 % 目录标题样式定义
 \renewcommand{\cfttoctitlefont}{\hfill\Large\bfseries}
@@ -69,19 +70,19 @@
 
 \lstset{style=mystyle}
 
-\title{\textbf{PR Experiment 1 Experiment Report}}
+\title{\textbf{PR Experiment Report Collection}}
 \author{58122204 谢兴}
 \date{\today}
 
 \begin{document}
 
 \begin{titlepage}
-  % \begin{figure}[htbp]
-  %   \centering
-  %   \includegraphics[scale=0.2]{figures/southeast_university_logo.png}
-  %   % \caption{实际投掷距离与理想条件下投掷距离对比}
-  %   \label{fig1}
-  % \end{figure}
+  \begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.2]{figures/southeast_university_logo.png}
+    % \caption{实际投掷距离与理想条件下投掷距离对比}
+    \label{fig1}
+  \end{figure}
 
   \centering
   \vspace*{40pt}
@@ -89,58 +90,181 @@
 
   \vspace{60pt}
   \Large
-  实验题目：KNN
+  % 专业：人工智能
 
-  \vspace{25pt}
-  学院：计算机科学院工程学院、软件学院、人工智能学院
+  % \vspace{30pt}
+  % 学号：58122204
 
-  \vspace{25pt}
-  专业：人工智能
+  % \vspace{30pt}
+  % 年级：大二
 
-  \vspace{25pt}
-  姓名：谢兴
+  % \vspace{30pt}
+  % 姓名：谢兴
 
-  \vspace{25pt}
-  学号：58122204
 
-  \vspace{25pt}
-  完成日期：2024年5月26日
+  % \vspace{30pt}
+  % 签名：
 
-  \vspace{25pt}
-  指导老师：薛晖
+
+  % \vspace{30pt}
+  % 时间：\today
+  \begin{center}
+
+    % \begin{tabularx}{0.8\textwidth}{>{\raggedleft\arraybackslash}X >{\centering\arraybackslash}X}
+    %   专业： & \underline{\makebox[6cm][c]{人工智能}} \\
+    %   学号： & \underline{\makebox[6cm][c]{58122204}} \\
+    %   年级： & \underline{\makebox[6cm][c]{大二}} \\
+    %   姓名： & \underline{\makebox[6cm][c]{谢兴}} \\
+    % \end{tabularx}
+    \begin{table}[h]
+      \centering
+      \begin{Large}
+        \begin{spacing}{1.5} % 设置行间距为1.5倍
+          \begin{tabular}{p{1.5cm} p{6cm}<{\centering}}
+            专业: & \underline{\makebox[6cm][c]{人工智能}}     \\
+            学号: & \underline{\makebox[6cm][c]{58122204}} \\
+            年级: & \underline{\makebox[6cm][c]{大二}}       \\
+            姓名: & \underline{\makebox[6cm][c]{谢兴}}       \\
+          \end{tabular}
+        \end{spacing}
+      \end{Large}
+    \end{table}
+
+
+
+
+    \vspace{5cm}
+
+    \begin{flushright}
+      \begin{tabularx}{0.4\textwidth}{>{\raggedleft\arraybackslash}X >{\centering\arraybackslash}X}
+        签名： & \\
+        时间： & \\
+      \end{tabularx}
+    \end{flushright}
+  \end{center}
+  %   \begin{center}
+  %     \begin{tabular}{rl}
+  %         专业： & \underline{\hspace{6cm}} \\
+  %         学号： & \underline{\hspace{6cm}} \\
+  %         年级： & \underline{\hspace{6cm}} \\
+  %         姓名： & \underline{\hspace{6cm}} \\
+  %     \end{tabular}
+  % \end{center}
+
 \end{titlepage}
 
 \newpage
 \tableofcontents
 
-\section*{实验目的}
-利用KNN算法，对 Iris 鸢尾花数据集中的测试集进行分类。
+% 实验一
+\newpage
+\section{\centering 实验一 KNN Classification}
 
-\section{任务说明}
+\subsection{问题描述}
+\subsection{概述}
+利用KNN算法，对 Iris 鸢尾花数据集中的测试集进行分类。
+\subsection{任务说明}
 \begin{enumerate}
-  \item 利用欧式距离作为KNN算法的度量函数，对测试集进行分类。实验报告中，要求在验证集上分析近邻数$k$对KNN算法分类精度的影响。
-  \item 利用马氏距离作为KNN算法的度量函数，对测试集进行分类。马氏距离是一种可学习的度量函数，详情请参考课题说明文档。注意：实验报告中请对优化过程的梯度计算公式进行推导。
-  \item 基于MindSpore平台提供的官方模型库，对相同的数据集进行训练，并与自己独立实现的算法对比结果（包括但不限于准确率、算法迭代收敛次数等指标），并分析结果中出现差异的可能原因，给出使用MindSpore的心得和建议。
+  \item 利用欧式距离作为KNN算法的度量函数，对测试集
+        进行分类。实验报告中，要求在验证集上分析近邻
+        数$k$对KNN算法分类精度的影响。
+  \item 利用马氏距离作为KNN算法的度量函数，对测试集
+        进行分类。
+  \item 基于MindSpore平台提供的官方模型库，对相同的
+  数据集进行训练，并与自己独立实现的算法对比结
+  果（包括但不限于准确率、算法迭代收敛次数等指
+  标），并分析结果中出现差异的可能原因，给出使
+  用MindSpore的心得和建议。
+  \item （加分项）使用MindSpore平台提供的相似任务数
+  据集（例如，其他的分类任务数据集）测试自己独
+  立实现的算法并与MindSpore平台上的官方实现算
+  法进行对比，并进一步分析差异及其成因。
+\end{enumerate}
+
+\subsection{实现步骤与流程}
+
+\subsection{实验结果与分析}
+
+\subsection{MindSpore 学习使用心得体会}
+
+\subsection{代码附录}
+
+\begin{lstlisting}[language=Python]
+# 实验一代码
+\end{lstlisting}
+
+% 实验二
+\newpage
+\section{\centering 实验二 Na\"ive Bayes Classification}
+
+\subsection{问题描述}
+\subsection{概述}
+利用朴素贝叶斯算法，对MNIST数据集中的测试集
+进行分类。
+\subsection{任务说明}
+
+\begin{enumerate}
+    \item 在课程学习中同学们已经学习了贝叶斯分类理论并掌握了其基本原理，即利用贝叶斯公式
+    \[
+    p(\omega_j|x) = \frac{p(x|\omega_j)p(\omega_j)}{p(x)}
+    \]
+    对\(p(\omega_j|x)\)作出预测。由于\(p(x)\)为一固定值，所以一般不在计算过程中求得\(p(x)\)的具体值。在实际运用中，为了方便计算，通常假设数据特征之间相互独立，即
+    \[
+    p(x|\omega_j) = p(x_1|\omega_j) \cdot p(x_2|\omega_j) \cdots p(x_d|\omega_j), \quad x \in \mathbb{R}^d,
+    \]
+    这便是著名的朴素贝叶斯算法。
+    
+    \item MNIST数据集本身以二进制形式保存，所以首先需要选择合适的编程语言编写读写二进制数据的程序完成对图片、标记信息的初步提取工作。读取了图片信息后，发现每个像素点的值在[0,1]区间内，这是图像压缩后的结果，所以可以先将像素值乘以255再取整，得到每一个点的灰度值。将图像二值化，得到可以用于分类的28×28个特征向量以及对应的标签数据，之后便可以交由贝叶斯分类器进行学习。
+    
+    \item 基于MindSpore平台提供的官方模型库，对相同的数据集进行训练，并与自己独立实现的算法对比结果（包括但不限于准确率、算法迭代收敛次数等指标），并分析结果中出现差异的可能原因，给出使用MindSpore的心得和建议。
+    
+    \item （加分项）使用MindSpore平台提供的相似任务数据集（例如，其他的分类任务数据集）测试自己独立实现的算法并与MindSpore平台上的官方实现算法进行对比，并进一步分析差异及其成因。
+\end{enumerate}
+
+\subsection{实现步骤与流程}
+
+\subsection{实验结果与分析}
+
+\subsection{MindSpore 学习使用心得体会}
+
+\subsection{代码附录}
+
+\begin{lstlisting}[language=Python]
+# 实验二代码
+\end{lstlisting}
+
+% 实验三
+\newpage
+\section{\centering 实验三 Neural Network Image Classification}
+
+\subsection{问题描述}
+\subsection{概述}
+利用神经网络算法，对CIFAR数据集中的测试集进
+行分类。
+\subsection{任务说明}
+\begin{enumerate}%[label=\(\Box\)]
+  \item 基于神经网络模型及BP算法，根据训练集中的数据对你设计的神经网络模型进行训练，随后对给定的打乱的测试集中的数据进行分类。
+  
+  \item 基于MindSpore平台提供的官方模型库，对相同的数据集进行训练，并与自己独立实现的算法对比结果（包括但不限于准确率、算法迭代收敛次数等指标），并分析结果中出现差异的可能原因。
+  
   \item （加分项）使用MindSpore平台提供的相似任务数据集（例如，其他的分类任务数据集）测试自己独立实现的算法并与MindSpore平台上的官方实现算法进行对比，并进一步分析差异及其成因。
 \end{enumerate}
 
-\section{问题描述}
+\subsection{实现步骤与流程}
 
-\section{实验步骤与流程}
+\subsection{实验结果与分析}
 
-\section{实验结果与分析}
+\subsection{MindSpore 学习使用心得体会}
 
-\section{实验心得体会}
+\subsection{代码附录}
 
-\newpage
-% 开始附录部分
-\appendix
-% 手动添加附录到目录中
-\addcontentsline{toc}{section}{附录A}
-\section*{实验内容一Code}
+
 
 \begin{lstlisting}[language=Python]
-
+# 实验三代码
 \end{lstlisting}
+
+\newpage
+\section{\centering 心得体会}
 
 \end{document}
