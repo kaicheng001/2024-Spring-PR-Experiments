@@ -269,7 +269,7 @@ KNN算法的数学模型如下：
   \label{K-Nearest Neighbors Based on Mahalanobis Distance}
   \begin{algorithmic}[1]
     \State 初始化KNN分类器，邻居数为$k$，矩阵$A$的维度为$e$，学习率为$\eta$，最大迭代次数为$max\_iter$
-    \Procedure{拟合}{$X_{train}, y_{train}$}
+    \Procedure{拟合}{X\_train, y\_train}
     \State 存储训练数据和标签
     \State 初始化矩阵$A$为随机值
     \For{迭代次数 $iteration = 1, 2, \ldots, max\_iter$}
@@ -447,7 +447,40 @@ KNN算法的数学模型如下：
 
 
 \subsubsection{算法描述}
+朴素贝叶斯算法实现的伪代码如算法~\ref{Optimized Multinomial Naive Bayes} 所示。
+\begin{algorithm}
+  \caption{Optimized Multinomial Naive Bayes}
+  \label{Optimized Multinomial Naive Bayes}
+  \begin{algorithmic}[1]
+    \State \textbf{Input:} 平滑参数 $\alpha$
+    \State \textbf{Initialize:}
+    \State \quad 类别数 $n\_classes$
+    \State \quad 特征数 $n\_features$
+    \State \quad 类别计数 $class\_count$
+    \State \quad 特征计数 $feature\_count$
+    \State \quad 类别对数先验 $class\_log\_prior$
+    \State \quad 特征对数概率 $feature\_log\_prob$
 
+    \Procedure{拟合}{X, y}
+    \State 获取唯一类别 $classes = \text{np.unique}(y)$
+    \State 初始化类别计数 $class\_count$ 和特征计数 $feature\_count$
+    \For{每个类别 $c \in classes$}
+    \State 获取属于类别 $c$ 的样本 $X_c$
+    \State 更新类别计数 $class\_count[c]$
+    \State 更新特征计数 $feature\_count[c, :]$
+    \EndFor
+    \State 计算类别对数先验 $class\_log\_prior$
+    \State 计算特征对数概率 $feature\_log\_prob$
+    \EndProcedure
+
+    \Procedure{预测}{X}
+    \State 计算对数似然 $log\_likelihood = X \times feature\_log\_prob^T$
+    \State 计算对数后验概率 $log\_posterior = log\_likelihood + class\_log\_prior$
+    \State 返回类别 $classes[\text{np.argmax}(log\_posterior, axis=1)]$
+    \EndProcedure
+
+  \end{algorithmic}
+\end{algorithm}
 \subsubsection{}
 
 \subsection{实验结果与分析}
