@@ -593,7 +593,7 @@ KNN算法的数学模型如下：
     % optimizer     & SGD           \\[\medskipamount]
     loss function & Cross Entropy \\[\medskipamount]
     performance   & accuracy      \\[\medskipamount]
-    batch size    & 16            \\[\medskipamount]
+    batch size    & 64            \\[\medskipamount]
     num\_hiddens  & 128           \\[\medskipamount]
     \bottomrule
   \end{tabular}
@@ -765,22 +765,22 @@ BP神经网络的数学模型如图~\ref{fig:fcnn_structure} 所示。
 \begin{figure}[htbp]
   \centering
   \includegraphics[scale=0.75]{figures/nn/accuracy_curve.png}
-  \caption{train.csv训练数据分布比例}
+  \caption{Accuracy随epoch的变化曲线}
   \label{fig:accuracy_curve}
 \end{figure}
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[scale=0.75]{figures/nn/loss_curve.png}
-  \caption{train.csv训练数据分布比例}
+  \caption{Loss随epoch的变化曲线}
   \label{fig:loss_curve}
 \end{figure}
 
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[scale=0.4]{figures/nn/confusion_matrix.png}
-  \caption{train.csv训练数据分布比例}
+  \includegraphics[scale=0.5]{figures/nn/confusion_matrix.png}
+  \caption{Confusion Matrix on CIFAR-10}
   \label{fig:confusion_matrix}
 \end{figure}
 
