@@ -37,12 +37,12 @@
 \contentsline {subsubsection}{\numberline {3.4.2}实验思路}{16}{subsubsection.3.4.2}%
 \contentsline {subsubsection}{\numberline {3.4.3}数学模型}{18}{subsubsection.3.4.3}%
 \contentsline {subsubsection}{\numberline {3.4.4}关键难点}{18}{subsubsection.3.4.4}%
-\contentsline {subsubsection}{\numberline {3.4.5}算法描述}{18}{subsubsection.3.4.5}%
-\contentsline {subsection}{\numberline {3.5}实验结果与分析}{20}{subsection.3.5}%
-\contentsline {subsection}{\numberline {3.6}MindSpore 学习使用心得体会}{20}{subsection.3.6}%
-\contentsline {subsection}{\numberline {3.7}代码附录}{20}{subsection.3.7}%
-\contentsline {subsubsection}{\numberline {3.7.1}\texttt {cifar-10-scratch.ipynb}}{20}{subsubsection.3.7.1}%
-\contentsline {section}{\numberline {4}\centering 心得体会}{26}{section.4}%
-\contentsline {subsection}{\numberline {4.1}关于上课的体会}{26}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}关于实验的体会}{26}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}总的体会}{26}{subsection.4.3}%
+\contentsline {subsubsection}{\numberline {3.4.5}算法描述}{19}{subsubsection.3.4.5}%
+\contentsline {subsection}{\numberline {3.5}实验结果与分析}{19}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.6}MindSpore 学习使用心得体会}{23}{subsection.3.6}%
+\contentsline {subsection}{\numberline {3.7}代码附录}{23}{subsection.3.7}%
+\contentsline {subsubsection}{\numberline {3.7.1}\texttt {cifar-10-scratch.ipynb}}{23}{subsubsection.3.7.1}%
+\contentsline {section}{\numberline {4}\centering 心得体会}{29}{section.4}%
+\contentsline {subsection}{\numberline {4.1}关于上课的体会}{29}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}关于实验的体会}{29}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}总的体会}{29}{subsection.4.3}%

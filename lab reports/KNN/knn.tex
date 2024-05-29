@@ -537,117 +537,137 @@ KNN算法的数学模型如下：
 \subsubsection{实验思路}
 \begin{enumerate}
   \item \textbf{数据加载与预处理}:
-  \begin{enumerate}
-    \item 从CIFAR-10数据集中加载图像数据和标签。
-    \item 将图像数据从原始格式转换为适用于神经网络的格式（32x32x3 $\rightarrow$ 3072）。
-    \item 将图像数据进行归一化处理，将像素值缩放到[0, 1]范围内。
-  \end{enumerate}
-  
+        \begin{enumerate}
+          \item 从CIFAR-10数据集中加载图像数据和标签。
+          \item 将图像数据从原始格式转换为适用于神经网络的格式（32x32x3 $\rightarrow$ 3072）。
+          \item 将图像数据进行归一化处理，将像素值缩放到[0, 1]范围内。
+        \end{enumerate}
+
   \item \textbf{数据划分}:
-  \begin{enumerate}
-    \item 将加载的训练数据划分为训练集和验证集，以便在训练过程中进行模型评估。
-  \end{enumerate}
+        \begin{enumerate}
+          \item 将加载的训练数据划分为训练集和验证集，以便在训练过程中进行模型评估。
+        \end{enumerate}
 
   \item \textbf{定义全连接神经网络结构}:
-  \begin{enumerate}
-    \item 输入层：包含3072个神经元，对应每张图像的3072个像素值。
-    \item 隐藏层：包含100个神经元，使用ReLU激活函数。
-    \item 输出层：包含10个神经元，对应10个类别，使用Softmax激活函数。
-  \end{enumerate}
+        \begin{enumerate}
+          \item 输入层：包含3072个神经元，对应每张图像的3072个像素值。
+          \item 隐藏层：包含100个神经元，使用ReLU激活函数。
+          \item 输出层：包含10个神经元，对应10个类别，使用Softmax激活函数。
+        \end{enumerate}
 
   \item \textbf{定义前向传播与反向传播}:
-  \begin{enumerate}
-    \item 前向传播：计算输入数据通过网络后的输出。
-    \item 反向传播：根据预测结果和实际标签计算损失，并更新网络权重。
-  \end{enumerate}
+        \begin{enumerate}
+          \item 前向传播：计算输入数据通过网络后的输出。
+          \item 反向传播：根据预测结果和实际标签计算损失，并更新网络权重。
+        \end{enumerate}
 
   \item \textbf{模型训练}:
-  \begin{enumerate}
-    \item 使用小批量梯度下降（Mini-Batch Gradient Descent）优化网络权重。
-    \item 在每个epoch结束后，计算并记录训练损失、验证损失和验证准确率。
-  \end{enumerate}
+        \begin{enumerate}
+          \item 使用小批量梯度下降（Mini-Batch Gradient Descent）优化网络权重。
+          \item 在每个epoch结束后，计算并记录训练损失、验证损失和验证准确率。
+        \end{enumerate}
 
   \item \textbf{模型评估}:
-  \begin{enumerate}
-    \item 在测试集上评估模型性能，计算并输出测试集准确率。
-    \item 绘制训练过程中损失和准确率的变化曲线。
-  \end{enumerate}
+        \begin{enumerate}
+          \item 在测试集上评估模型性能，计算并输出测试集准确率。
+          \item 绘制训练过程中损失和准确率的变化曲线。
+        \end{enumerate}
 
   \item \textbf{混淆矩阵}:
-  \begin{enumerate}
-    \item 计算混淆矩阵，分析分类结果的具体表现。
-    \item 绘制混淆矩阵，直观展示模型在各个类别上的分类效果。
-  \end{enumerate}
+        \begin{enumerate}
+          \item 计算混淆矩阵，分析分类结果的具体表现。
+          \item 绘制混淆矩阵，直观展示模型在各个类别上的分类效果。
+        \end{enumerate}
 \end{enumerate}
+本实验的超参数如表~\ref{tab:training-params} 所示。
+\begin{table}[htbp]
+  \centering
+  \caption{训练参数}
+  \label{tab:training-params}
+  \begin{tabular}{m{3cm}<{\centering}m{3cm}<{\centering}}
+    \toprule
+    \textbf{参数}   & \textbf{值}    \\[\medskipamount]
+    \midrule
+    learning rate & 0.01          \\[\medskipamount]
+    epochs        & 100           \\[\medskipamount]
+    % optimizer     & SGD           \\[\medskipamount]
+    loss function & Cross Entropy \\[\medskipamount]
+    performance   & accuracy      \\[\medskipamount]
+    batch size    & 16            \\[\medskipamount]
+    num\_hiddens  & 128           \\[\medskipamount]
+    \bottomrule
+  \end{tabular}
+\end{table}
+
 
 \subsubsection{数学模型}
 BP神经网络的数学模型如图~\ref{fig:fcnn_structure} 所示。
 \tikzset{%
-   neuron missing/.style={
-    draw=none, 
-    scale=4,
-    text height=0.333cm,
-    execute at begin node=\color{black}$\vdots$
-  },
+  neuron missing/.style={
+      draw=none,
+      scale=4,
+      text height=0.333cm,
+      execute at begin node=\color{black}$\vdots$
+    },
 }
 \begin{figure}[htbp]
-\centering
-\begin{tikzpicture}[x=1.5cm, y=1.5cm, >=stealth]
+  \centering
+  \begin{tikzpicture}[x=1.5cm, y=1.5cm, >=stealth]
 
-\foreach \m/\l [count=\y] in {1,2,3}
-{
- \node [circle,fill=green!50,minimum size=1cm] (input-\m) at (0,2.5-\y) {};
-}
-\foreach \m/\l [count=\y] in {4}
-{
- \node [circle,fill=green!50,minimum size=1cm ] (input-\m) at (0,-2.5) {};
-}
- 
- \node [neuron missing]  at (0,-1.5) {};
- 
+    \foreach \m/\l [count=\y] in {1,2,3}
+      {
+        \node [circle,fill=green!50,minimum size=1cm] (input-\m) at (0,2.5-\y) {};
+      }
+    \foreach \m/\l [count=\y] in {4}
+      {
+        \node [circle,fill=green!50,minimum size=1cm ] (input-\m) at (0,-2.5) {};
+      }
 
-\foreach \m [count=\y] in {1}
-  \node [circle,fill=red!50,minimum size=1cm ] (hidden-\m) at (2,0.75) {};
-  
-\foreach \m [count=\y] in {2}
-  \node [circle,fill=red!50,minimum size=1cm ] (hidden-\m) at (2,-1.85) {};
-  
- \node [neuron missing]  at (2,-0.3) {};
+    \node [neuron missing]  at (0,-1.5) {};
 
 
-\foreach \m [count=\y] in {1}
-  \node [circle,fill=blue!50,minimum size=1cm ] (output-\m) at (4,1.5-\y) {};
-  
-\foreach \m [count=\y] in {2}
-  \node [circle,fill=blue!50,minimum size=1cm ] (output-\m) at (4,-0.5-\y) {};
+    \foreach \m [count=\y] in {1}
+    \node [circle,fill=red!50,minimum size=1cm ] (hidden-\m) at (2,0.75) {};
 
- \node [neuron missing]  at (4,-0.4) {};
+    \foreach \m [count=\y] in {2}
+    \node [circle,fill=red!50,minimum size=1cm ] (hidden-\m) at (2,-1.85) {};
 
-\foreach \l [count=\i] in {1,2,3, 3072}
-  \draw [<-] (input-\i) -- ++(-1,0)
+    \node [neuron missing]  at (2,-0.3) {};
+
+
+    \foreach \m [count=\y] in {1}
+    \node [circle,fill=blue!50,minimum size=1cm ] (output-\m) at (4,1.5-\y) {};
+
+    \foreach \m [count=\y] in {2}
+    \node [circle,fill=blue!50,minimum size=1cm ] (output-\m) at (4,-0.5-\y) {};
+
+    \node [neuron missing]  at (4,-0.4) {};
+
+    \foreach \l [count=\i] in {1,2,3, 3072}
+    \draw [<-] (input-\i) -- ++(-1,0)
     node [above, midway] {$I_{\l}$};
 
-\foreach \l [count=\i] in {1,100}
-  \node [above] at (hidden-\i.north) {$H_{\l}$};
+    \foreach \l [count=\i] in {1,100}
+    \node [above] at (hidden-\i.north) {$H_{\l}$};
 
-\foreach \l [count=\i] in {1,10}
-  \draw [->] (output-\i) -- ++(1,0)
+    \foreach \l [count=\i] in {1,10}
+    \draw [->] (output-\i) -- ++(1,0)
     node [above, midway] {$O_{ \l}$};
 
-\foreach \i in {1,...,4}
-  \foreach \j in {1,...,2}
+    \foreach \i in {1,...,4}
+    \foreach \j in {1,...,2}
     \draw [->] (input-\i) -- (hidden-\j);
 
-\foreach \i in {1,...,2}
-  \foreach \j in {1,...,2}
+    \foreach \i in {1,...,2}
+    \foreach \j in {1,...,2}
     \draw [->] (hidden-\i) -- (output-\j);
 
-%\foreach \l [count=\x from 0] in {Input, Hidden, Output}
- % \node [align=center, above] at (\x*2,2) {\l \\ layer};
+    %\foreach \l [count=\x from 0] in {Input, Hidden, Output}
+    % \node [align=center, above] at (\x*2,2) {\l \\ layer};
 
-\end{tikzpicture}
-\caption{全连接神经网络结构示意图}
-\label{fig:fcnn_structure}
+  \end{tikzpicture}
+  \caption{全连接神经网络结构示意图}
+  \label{fig:fcnn_structure}
 \end{figure}
 
 
@@ -697,39 +717,73 @@ BP神经网络的数学模型如图~\ref{fig:fcnn_structure} 所示。
   \begin{algorithmic}[1]
     \State 初始化网络的权重$\mathbf{W1}, \mathbf{W2}$和偏置$\mathbf{b1}, \mathbf{b2}$为随机值
     \Procedure{训练}{X\_train, Y\_train, X\_val, Y\_val, batch\_size, learning\_rate, epochs}
-      \For{每个epoch}
-        \For{每个mini-batch}
-          \State \textbf{前向传播}:
-          \State \quad 设输入$\mathbf{X}$
-          \State \quad 计算第一层的输出和激活值:
-          \State \quad \quad $\mathbf{Z1} = \mathbf{X} \mathbf{W1} + \mathbf{b1}$
-          \State \quad \quad $\mathbf{A1} = \max(0, \mathbf{Z1})$ \Comment{ReLU激活函数}
-          \State \quad 计算第二层的输出和激活值:
-          \State \quad \quad $\mathbf{Z2} = \mathbf{A1} \mathbf{W2} + \mathbf{b2}$
-          \State \quad \quad $\mathbf{A2} = \text{softmax}(\mathbf{Z2})$
-          \State \textbf{计算损失}:
-          \State \quad 使用交叉熵损失函数计算损失$L$
-          \State \textbf{反向传播}:
-          \State \quad 计算输出层的误差$\delta^{(2)}$
-          \State \quad 计算隐藏层的误差$\delta^{(1)}$
-          \State \quad 计算梯度:
-          \State \quad \quad $\nabla_{\mathbf{W2}} = \mathbf{A1}^T \delta^{(2)}$
-          \State \quad \quad $\nabla_{\mathbf{b2}} = \sum \delta^{(2)}$
-          \State \quad \quad $\nabla_{\mathbf{W1}} = \mathbf{X}^T \delta^{(1)}$
-          \State \quad \quad $\nabla_{\mathbf{b1}} = \sum \delta^{(1)}$
-          \State \textbf{更新权重和偏置}:
-          \State \quad 使用学习率$\eta$更新$\mathbf{W1}, \mathbf{b1}, \mathbf{W2}, \mathbf{b2}$
-        \EndFor
-        \State 计算训练集和验证集的损失和准确率
-      \EndFor
+    \For{每个epoch}
+    \For{每个mini-batch}
+    \State \textbf{前向传播}:
+    \State \quad 设输入$\mathbf{X}$
+    \State \quad 计算第一层的输出和激活值:
+    \State \quad \quad $\mathbf{Z1} = \mathbf{X} \mathbf{W1} + \mathbf{b1}$
+    \State \quad \quad $\mathbf{A1} = \max(0, \mathbf{Z1})$ \Comment{ReLU激活函数}
+    \State \quad 计算第二层的输出和激活值:
+    \State \quad \quad $\mathbf{Z2} = \mathbf{A1} \mathbf{W2} + \mathbf{b2}$
+    \State \quad \quad $\mathbf{A2} = \text{softmax}(\mathbf{Z2})$
+    \State \textbf{计算损失}:
+    \State \quad 使用交叉熵损失函数计算损失$L$
+    \State \textbf{反向传播}:
+    \State \quad 计算输出层的误差$\delta^{(2)}$
+    \State \quad 计算隐藏层的误差$\delta^{(1)}$
+    \State \quad 计算梯度:
+    \State \quad \quad $\nabla_{\mathbf{W2}} = \mathbf{A1}^T \delta^{(2)}$
+    \State \quad \quad $\nabla_{\mathbf{b2}} = \sum \delta^{(2)}$
+    \State \quad \quad $\nabla_{\mathbf{W1}} = \mathbf{X}^T \delta^{(1)}$
+    \State \quad \quad $\nabla_{\mathbf{b1}} = \sum \delta^{(1)}$
+    \State \textbf{更新权重和偏置}:
+    \State \quad 使用学习率$\eta$更新$\mathbf{W1}, \mathbf{b1}, \mathbf{W2}, \mathbf{b2}$
+    \EndFor
+    \State 计算训练集和验证集的损失和准确率
+    \EndFor
     \EndProcedure
   \end{algorithmic}
 \end{algorithm}
 
-
-
-
 \subsection{实验结果与分析}
+
+\begin{enumerate}
+  \item \textbf{准确率曲线}
+        本实验训练集和验证集上的准确率随epoch的变化曲线如图~\ref{fig:accuracy_curve}所示。
+        从图中可以看出，随着epoch的增加，验证集的准确率逐渐提高，最终收敛到\textbf{50\%}。
+  \item \textbf{损失曲线}
+        本实验验证集上的损失随epoch的变化曲线如图~\ref{fig:loss_curve}所示。
+        从图中可以看出，随着epoch的增加，训练接和验证集的损失逐渐降低，最终收敛到一个稳定值。
+        其中训练集损失稳定在\textbf{1.0}左右，验证集损失稳定在\textbf{1.4}左右。
+  \item \textbf{混淆矩阵}
+        本实验的混淆矩阵如图~\ref{fig:confusion_matrix}所示。
+        从图中可以看出，模型在不同类别上的分类效果，以及各类别之间的混淆情况。
+\end{enumerate}
+
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[scale=0.75]{figures/nn/accuracy_curve.png}
+  \caption{train.csv训练数据分布比例}
+  \label{fig:accuracy_curve}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[scale=0.75]{figures/nn/loss_curve.png}
+  \caption{train.csv训练数据分布比例}
+  \label{fig:loss_curve}
+\end{figure}
+
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[scale=0.4]{figures/nn/confusion_matrix.png}
+  \caption{train.csv训练数据分布比例}
+  \label{fig:confusion_matrix}
+\end{figure}
+
 
 \subsection{MindSpore 学习使用心得体会}
 
@@ -891,24 +945,26 @@ BP神经网络的数学模型如图~\ref{fig:fcnn_structure} 所示。
   accuracy = np.mean(y_pred == y_test)
   print(f'测试集准确率: {accuracy:.4f}')
   
-  # 绘制损失和准确率曲线
+  # 绘制损失曲线
   epochs_range = range(epochs)
-  plt.figure(figsize=(12, 4))
-  plt.subplot(1, 2, 1)
+  plt.figure(figsize=(8, 4))
   plt.plot(epochs_range, train_losses, label='训练损失')
   plt.plot(epochs_range, val_losses, label='验证损失')
   plt.xlabel('Epochs')
   plt.ylabel('Loss')
   plt.legend(loc='upper right')
   plt.title('损失曲线')
+  plt.show()
   
-  plt.subplot(1, 2, 2)
+  # 绘制准确率曲线
+  plt.figure(figsize=(8, 4))
   plt.plot(epochs_range, val_accuracies, label='验证准确率')
   plt.xlabel('Epochs')
   plt.ylabel('Accuracy')
   plt.legend(loc='lower right')
   plt.title('准确率曲线')
   plt.show()
+  
   
   # 计算混淆矩阵
   def compute_confusion_matrix(y_true, y_pred, num_classes):
