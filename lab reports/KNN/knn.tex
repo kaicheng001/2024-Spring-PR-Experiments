@@ -361,8 +361,8 @@ KNN算法的数学模型如下：
 \subsection{实验结果与分析}
 \subsubsection{数据集的部分可视化分析}
 \begin{enumerate}
-  \item \texttt{train.csv}文件中训练数据的pairplot图如图~\ref{fig:pairplot}所示。
-  \item 训练数据的分布情况如图~\ref{fig:pie}所示，可以看出这三类鸢尾花的数据分布比例是不完全一致的，但三类的数据量大致相同。
+  \item \texttt{train.csv}文件中训练数据的pairplot图如图~\ref{fig:pairplot} 所示。
+  \item 训练数据的分布情况如图~\ref{fig:pie} 所示，可以看出这三类鸢尾花的数据分布比例是不完全一致的，但三类的数据量大致相同。
   \item
 \end{enumerate}
 
@@ -539,7 +539,7 @@ KNN算法的数学模型如下：
   \item \textbf{数据加载与预处理}:
         \begin{enumerate}
           \item 从CIFAR-10数据集中加载图像数据和标签。
-          \item 将图像数据从原始格式转换为适用于神经网络的格式（32x32x3 $\rightarrow$ 3072）。
+          \item 将图像数据从原始格式转换为适用于神经网络的格式（32 $\times$ 32 $\times$ 3 $\rightarrow$ 3072）。
           \item 将图像数据进行归一化处理，将像素值缩放到[0, 1]范围内。
         \end{enumerate}
 
@@ -577,6 +577,10 @@ KNN算法的数学模型如下：
         \begin{enumerate}
           \item 计算混淆矩阵，分析分类结果的具体表现。
           \item 绘制混淆矩阵，直观展示模型在各个类别上的分类效果。
+        \end{enumerate}
+  \item \textbf{预测结果展示}
+        \begin{enumerate}
+          \item 展示模型在测试集部分图片上的分类结果。
         \end{enumerate}
 \end{enumerate}
 本实验的超参数如表~\ref{tab:training-params} 所示。
@@ -750,10 +754,10 @@ BP神经网络的数学模型如图~\ref{fig:fcnn_structure} 所示。
 
 \begin{enumerate}
   \item \textbf{准确率曲线}
-        本实验训练集和验证集上的准确率随epoch的变化曲线如图~\ref{fig:accuracy_curve}所示。
+        本实验训练集和验证集上的准确率随epoch的变化曲线如图~\ref{fig:accuracy_curve} 所示。
         从图中可以看出，随着epoch的增加，验证集的准确率逐渐提高，最终收敛到\textbf{50\%}。
   \item \textbf{损失曲线}
-        本实验验证集上的损失随epoch的变化曲线如图~\ref{fig:loss_curve}所示。
+        本实验验证集上的损失随epoch的变化曲线如图~\ref{fig:loss_curve} 所示。
         从图中可以看出，随着epoch的增加，训练接和验证集的损失逐渐降低，最终收敛到一个稳定值。
         其中训练集损失稳定在\textbf{1.0}左右，验证集损失稳定在\textbf{1.4}左右。
   \item \textbf{混淆矩阵}
