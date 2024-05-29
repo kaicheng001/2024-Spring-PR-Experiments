@@ -237,8 +237,8 @@ KNN算法的数学模型如下：
 \begin{enumerate}
   \item 如何高效地计算欧氏距离。
   \item 如何在较大的数据集上进行快速的邻居搜索。
-  \item 如何处理训练数据和测试数据的维度一致性问题。
-  \item 如何在分类时处理类别不均衡的问题。
+  % \item 如何处理训练数据和测试数据的维度一致性问题。
+  % \item 如何在分类时处理类别不均衡的问题。
 \end{enumerate}
 
 
@@ -363,7 +363,7 @@ KNN算法的数学模型如下：
 \begin{enumerate}
   \item train.csv 文件中训练数据的pairplot图如图~\ref{fig:pairplot} 所示。
   \item 训练数据的分布情况如图~\ref{fig:pie} 所示，可以看出这三类鸢尾花的数据分布比例是不完全一致的，但三类的数据量大致相同。
-  \item
+  % \item
 \end{enumerate}
 
 \begin{figure}[htbp]
@@ -583,10 +583,10 @@ KNN算法的数学模型如下：
           \item 展示模型在测试集部分图片上的分类结果。
         \end{enumerate}
 \end{enumerate}
-本实验的超参数如表~\ref{tab:training-params} 所示。
+本实验的评估指标和超参数如表~\ref{tab:training-params} 所示。
 \begin{table}[htbp]
   \centering
-  \caption{训练参数}
+  \caption{实验评估指标和超参数}
   \label{tab:training-params}
   \begin{tabular}{m{3cm}<{\centering}m{3cm}<{\centering}}
     \toprule
@@ -752,19 +752,31 @@ BP神经网络的数学模型如图~\ref{fig:fcnn_structure} 所示。
 
 \subsection{实验结果与分析}
 
+\subsubsection{实验结果展示}
+
 \begin{enumerate}
-  \item \textbf{准确率曲线}
-        本实验训练集和验证集上的准确率随epoch的变化曲线如图~\ref{fig:accuracy_curve} 所示。
+  \item \textbf{准确率曲线} 本实验训练集和验证集上的准确率随epoch的变化曲线如图~\ref{fig:accuracy_curve} 所示。
         从图中可以看出，随着epoch的增加，验证集的准确率逐渐提高，最终收敛到\textbf{50\%}。
-  \item \textbf{损失曲线}
-        本实验验证集上的损失随epoch的变化曲线如图~\ref{fig:loss_curve} 所示。
-        从图中可以看出，随着epoch的增加，训练接和验证集的损失逐渐降低，最终收敛到一个稳定值。
-        其中训练集损失稳定在\textbf{1.0}左右，验证集损失稳定在\textbf{1.4}左右。
-  \item \textbf{混淆矩阵}
-        本实验的混淆矩阵如图~\ref{fig:confusion_matrix}所示。
-        从图中可以看出，模型在不同类别上的分类效果，以及各类别之间的混淆情况。
+  \item \textbf{损失曲线} 本实验验证集上的交叉熵损失随epoch的变化曲线如图~\ref{fig:loss_curve} 所示。
+        从图中可以看出，随着epoch的增加，训练接和验证集的交叉熵损失逐渐降低，最终收敛到一个稳定值。
+        其中训练集交叉熵损失稳定在\textbf{1.0}左右，验证集交叉熵损失稳定在\textbf{1.4}左右。
+  \item \textbf{混淆矩阵} 本实验的混淆矩阵如图~\ref{fig:confusion_matrix} 所示。
+        从图中可以看出，模型在CIFAR-10数据集上的分类效果较好，大部分类别的分类准确率较高。
 \end{enumerate}
 
+\subsubsection{进一步探究}
+虽然上述基于全连接神经网络的分类器在CIFAR-10数据集上取得了一定的分类效果，但是其准确率仍然较低，仅为50\%左右。
+结合机器学习课程所学知识，可以尝试以下方法进一步提高分类器的性能：
+
+\begin{itemize}
+  \item 尝试使用更复杂的神经网络结构，如CNN、RNN、Transformers等
+  \item 尝试使用更高级的优化算法，如Adam、RMSprop等
+  \item 尝试使用更复杂的数据增强技术，如旋转、平移、缩放等
+  \item 尝试使用更复杂的模型评估指标，如F1-score、ROC曲线等
+  \item 尝试使用更复杂的模型融合技术，如集成学习、模型融合等
+  \item 尝试使用更复杂的超参数调优技术，如网格搜索、贝叶斯优化等
+  \item 尝试使用更复杂的模型解释技术，如LIME、SHAP等
+\end{itemize}
 
 \begin{figure}[htbp]
   \centering
