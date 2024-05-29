@@ -191,18 +191,18 @@
 
 \subsubsection{实验思路}
 \begin{enumerate}
-  \item 导入必要的库，包括 \texttt{numpy}, \texttt{pandas}, \texttt{matplotlib}, \texttt{plotly} 和 \texttt{seaborn}；
+  \item 导入必要的库，包括numpy, pandas, matplotlib, plotly 和 seaborn；
   \item 数据加载和基本信息显示；
         \begin{enumerate}
-          \item 从 \texttt{data/train.csv} 文件中加载训练数据集
+          \item 从 data/train.csv 文件中加载训练数据集
           \item 显示数据集的前几行数据
           \item 显示数据集的描述性统计信息
           \item 显示数据集的基本信息，包括数据类型和缺失值情况
         \end{enumerate}
   \item 数据可视化；
         \begin{enumerate}
-          \item 使用 \texttt{Seaborn} 绘制数据集的特征两两关系图，并按标签着色
-          \item 使用 \texttt{Plotly} 绘制数据分布的饼图
+          \item 使用 seaborn 绘制数据集的特征两两关系图，并按标签着色
+          \item 使用 plotly 绘制数据分布的饼图
           \item 分别绘制每个特征（萼片长度、萼片宽度、花瓣长度、花瓣宽度）的箱线图和直方图
         \end{enumerate}
   \item 实现基于Euiclidean距离和基于Mahalanobis距离的KNN算法；
@@ -210,11 +210,11 @@
   \item 数据处理和预测；
         \begin{enumerate}
           \item 加载测试数据集并进行必要的类型转换和缺失值检查
-          \item 使用预训练模型对测试数据进行预测，并将预测结果保存到 \texttt{CSV} 文件中
+          \item 使用预训练模型对测试数据进行预测，并将预测结果保存到 CSV 文件中
         \end{enumerate}
   \item 最后对比欧式距离和马氏距离两种度量方式的分类效果和差异
         \begin{enumerate}
-          \item 比较多个预测结果文件 \texttt{task1\_test\_prediction.csv} 和\\ \texttt{task2\_test\_prediction.csv}之间的差异，
+          \item 比较多个预测结果文件 task1\_test\_prediction.csv 和 task2\_test\_prediction.csv之间的差异，
                 找出不同的行和列，并打印出不同值的位置
         \end{enumerate}
 \end{enumerate}
@@ -361,7 +361,7 @@ KNN算法的数学模型如下：
 \subsection{实验结果与分析}
 \subsubsection{数据集的部分可视化分析}
 \begin{enumerate}
-  \item \texttt{train.csv}文件中训练数据的pairplot图如图~\ref{fig:pairplot} 所示。
+  \item train.csv 文件中训练数据的pairplot图如图~\ref{fig:pairplot} 所示。
   \item 训练数据的分布情况如图~\ref{fig:pie} 所示，可以看出这三类鸢尾花的数据分布比例是不完全一致的，但三类的数据量大致相同。
   \item
 \end{enumerate}
@@ -401,12 +401,12 @@ KNN算法的数学模型如下：
 \subsection{MindSpore 学习使用心得体会}
 
 \subsection{代码附录（数据加载可视化展示部分，具体见knn.ipynb文件）}
-\subsubsection{\texttt{knn.ipynb}}
+\subsubsection{knn.ipynb}
 \begin{lstlisting}[language=Python]
 # 实验一代码
 \end{lstlisting}
 
-\subsubsection{\texttt{knn\_mindspore.ipynb}}
+\subsubsection{knn\_mindspore.ipynb}
 \begin{lstlisting}[language=Python]
 # 实验一代码
 \end{lstlisting}
@@ -793,7 +793,7 @@ BP神经网络的数学模型如图~\ref{fig:fcnn_structure} 所示。
 
 \subsection{代码附录}
 
-\subsubsection{\texttt{cifar-10-scratch.ipynb}}
+\subsubsection{cifar-10-scratch.ipynb}
 \begin{lstlisting}[language=Python]
   import pickle
   import numpy as np

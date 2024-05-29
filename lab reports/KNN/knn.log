@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2024.2.29)  29 MAY 2024 22:22
+This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2024.2.29)  29 MAY 2024 23:45
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1107,31 +1107,7 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 129.
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
 
-] (./knn.toc
-
-Package fontspec Info: Could not resolve font "FangSong/BI" (it probably
-(fontspec)             doesn't exist).
-
-
-Package fontspec Info: Could not resolve font "FangSong/B" (it probably
-(fontspec)             doesn't exist).
-
-
-Package fontspec Info: Could not resolve font "FangSong/I" (it probably
-(fontspec)             doesn't exist).
-
-
-Package fontspec Info: Font family 'FangSong(0)' created for font 'FangSong'
-(fontspec)             with options [Script={CJK}].
-(fontspec)              
-(fontspec)              This font family consists of the following NFSS
-(fontspec)             series/shapes:
-(fontspec)              
-(fontspec)             - 'normal' (m/n) with NFSS spec.:
-(fontspec)             <->"FangSong/OT:script=hani;language=dflt;"
-(fontspec)             - 'small caps'  (m/sc) with NFSS spec.: 
-
- [1])
+] (./knn.toc [1])
 \tf@toc=\write5
 \openout5 = `knn.toc'.
 
@@ -1205,7 +1181,31 @@ File: figures/knn/accuracy.png Graphic file (type bmp)
 <figures/knn/accuracy.png>
  (d:/Texlive/texlive/2023/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2024/02/21 1.10 listings language file
-) [11] [12]
+)
+
+Package fontspec Info: Could not resolve font "FangSong/BI" (it probably
+(fontspec)             doesn't exist).
+
+
+Package fontspec Info: Could not resolve font "FangSong/B" (it probably
+(fontspec)             doesn't exist).
+
+
+Package fontspec Info: Could not resolve font "FangSong/I" (it probably
+(fontspec)             doesn't exist).
+
+
+Package fontspec Info: Font family 'FangSong(0)' created for font 'FangSong'
+(fontspec)             with options [Script={CJK}].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.:
+(fontspec)             <->"FangSong/OT:script=hani;language=dflt;"
+(fontspec)             - 'small caps'  (m/sc) with NFSS spec.: 
+
+ [11] [12]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `\<let>-command' on input line 416.
@@ -1389,11 +1389,11 @@ Package rerunfilecheck Info: File `knn.out' has not changed.
 (rerunfilecheck)             Checksum: 6A2C7D21987E010012A5E11FD0267B56;5768.
  ) 
 Here is how much of TeX's memory you used:
- 33280 strings out of 474794
- 709659 string characters out of 5758529
+ 33278 strings out of 474794
+ 709583 string characters out of 5758529
  2274842 words of memory out of 5000000
- 54794 multiletter control sequences out of 15000+600000
- 567158 words of font info for 126 fonts, out of 8000000 for 9000
+ 54793 multiletter control sequences out of 15000+600000
+ 567150 words of font info for 125 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  103i,15n,117p,456b,1887s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
