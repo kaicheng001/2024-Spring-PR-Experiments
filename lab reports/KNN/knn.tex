@@ -24,8 +24,11 @@
 \usepackage[table]{xcolor} % For coloring tables
 \usepackage{tabularx} % For auto-sized table columns
 \usepackage{algorithm}
+
 \usepackage{algpseudocode}
 \usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
 
 % 目录标题样式定义
 \renewcommand{\cfttoctitlefont}{\hfill\Large\bfseries}
@@ -511,16 +514,219 @@ KNN算法的数学模型如下：
 \end{enumerate}
 
 \subsection{实现步骤与流程}
-\subsubsection{实验思路}
+\subsubsection{实验环境}
+实验环境见表~\ref{tab:indicators}。
 
+\begin{table}[!t]
+  \caption{Experiment Environment}
+  \label{tab:indicators}
+  \centering
+  \begin{tabular}{m{5cm}<{\centering}m{5cm}<{\centering}m{4cm}<{\centering}}
+    \toprule
+    \textbf{Items}   & \textbf{Version}     \\[\medskipamount]
+    \midrule
+    CPU              & Intel Core i5-1135G7 \\[\medskipamount]
+    RAM              & 16 GB                \\[\medskipamount]
+    Python           & 3.11.5               \\[\medskipamount]
+    % scikit-learn     & 1.3.2                \\[\medskipamount]
+    Operating system & Windows11            \\[\medskipamount]
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsubsection{实验思路}
+\begin{enumerate}
+  \item \textbf{数据加载与预处理}:
+  \begin{enumerate}
+    \item 从CIFAR-10数据集中加载图像数据和标签。
+    \item 将图像数据从原始格式转换为适用于神经网络的格式（32x32x3 $\rightarrow$ 3072）。
+    \item 将图像数据进行归一化处理，将像素值缩放到[0, 1]范围内。
+  \end{enumerate}
+  
+  \item \textbf{数据划分}:
+  \begin{enumerate}
+    \item 将加载的训练数据划分为训练集和验证集，以便在训练过程中进行模型评估。
+  \end{enumerate}
+
+  \item \textbf{定义全连接神经网络结构}:
+  \begin{enumerate}
+    \item 输入层：包含3072个神经元，对应每张图像的3072个像素值。
+    \item 隐藏层：包含100个神经元，使用ReLU激活函数。
+    \item 输出层：包含10个神经元，对应10个类别，使用Softmax激活函数。
+  \end{enumerate}
+
+  \item \textbf{定义前向传播与反向传播}:
+  \begin{enumerate}
+    \item 前向传播：计算输入数据通过网络后的输出。
+    \item 反向传播：根据预测结果和实际标签计算损失，并更新网络权重。
+  \end{enumerate}
+
+  \item \textbf{模型训练}:
+  \begin{enumerate}
+    \item 使用小批量梯度下降（Mini-Batch Gradient Descent）优化网络权重。
+    \item 在每个epoch结束后，计算并记录训练损失、验证损失和验证准确率。
+  \end{enumerate}
+
+  \item \textbf{模型评估}:
+  \begin{enumerate}
+    \item 在测试集上评估模型性能，计算并输出测试集准确率。
+    \item 绘制训练过程中损失和准确率的变化曲线。
+  \end{enumerate}
+
+  \item \textbf{混淆矩阵}:
+  \begin{enumerate}
+    \item 计算混淆矩阵，分析分类结果的具体表现。
+    \item 绘制混淆矩阵，直观展示模型在各个类别上的分类效果。
+  \end{enumerate}
+\end{enumerate}
 
 \subsubsection{数学模型}
+BP神经网络的数学模型如图~\ref{fig:fcnn_structure} 所示。
+\tikzset{%
+   neuron missing/.style={
+    draw=none, 
+    scale=4,
+    text height=0.333cm,
+    execute at begin node=\color{black}$\vdots$
+  },
+}
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[x=1.5cm, y=1.5cm, >=stealth]
+
+\foreach \m/\l [count=\y] in {1,2,3}
+{
+ \node [circle,fill=green!50,minimum size=1cm] (input-\m) at (0,2.5-\y) {};
+}
+\foreach \m/\l [count=\y] in {4}
+{
+ \node [circle,fill=green!50,minimum size=1cm ] (input-\m) at (0,-2.5) {};
+}
+ 
+ \node [neuron missing]  at (0,-1.5) {};
+ 
+
+\foreach \m [count=\y] in {1}
+  \node [circle,fill=red!50,minimum size=1cm ] (hidden-\m) at (2,0.75) {};
+  
+\foreach \m [count=\y] in {2}
+  \node [circle,fill=red!50,minimum size=1cm ] (hidden-\m) at (2,-1.85) {};
+  
+ \node [neuron missing]  at (2,-0.3) {};
+
+
+\foreach \m [count=\y] in {1}
+  \node [circle,fill=blue!50,minimum size=1cm ] (output-\m) at (4,1.5-\y) {};
+  
+\foreach \m [count=\y] in {2}
+  \node [circle,fill=blue!50,minimum size=1cm ] (output-\m) at (4,-0.5-\y) {};
+
+ \node [neuron missing]  at (4,-0.4) {};
+
+\foreach \l [count=\i] in {1,2,3, 3072}
+  \draw [<-] (input-\i) -- ++(-1,0)
+    node [above, midway] {$I_{\l}$};
+
+\foreach \l [count=\i] in {1,100}
+  \node [above] at (hidden-\i.north) {$H_{\l}$};
+
+\foreach \l [count=\i] in {1,10}
+  \draw [->] (output-\i) -- ++(1,0)
+    node [above, midway] {$O_{ \l}$};
+
+\foreach \i in {1,...,4}
+  \foreach \j in {1,...,2}
+    \draw [->] (input-\i) -- (hidden-\j);
+
+\foreach \i in {1,...,2}
+  \foreach \j in {1,...,2}
+    \draw [->] (hidden-\i) -- (output-\j);
+
+%\foreach \l [count=\x from 0] in {Input, Hidden, Output}
+ % \node [align=center, above] at (\x*2,2) {\l \\ layer};
+
+\end{tikzpicture}
+\caption{全连接神经网络结构示意图}
+\label{fig:fcnn_structure}
+\end{figure}
 
 
 \subsubsection{关键难点}
-
+在训练过程中实时评估模型的性能，并根据评估结果调整模型的超参数，如学习率、批次大小、隐藏层神经元数量等。
+需要平衡模型的复杂度和泛化能力，避免过拟合或欠拟合。
 
 \subsubsection{算法描述}
+使用BP神经网络训练算法，如算法~\ref{FullyConnectedNN Training Algorithm} 所示。
+% \begin{algorithm}
+%   \caption{BP神经网络训练算法}
+%   \label{BP Neural Network Training Algorithm}
+%   \begin{algorithmic}[1]
+%     \State 初始化网络的权重$\mathbf{W}$和偏置$\mathbf{b}$为随机值
+%     \Procedure{训练}{X, y, x\_val, y\_val, batch\_size, learning\_rate, epochs}
+%       \For{每个epoch}
+%         \For{每个mini-batch}
+%           \State \textbf{前向传播}:
+%           \State \quad 设输入$\mathbf{x}$
+%           \State \quad 计算每一层的输出和激活值:
+%           \State \quad \quad $\mathbf{z}^{(l)} = \mathbf{W}^{(l)} \mathbf{a}^{(l-1)} + \mathbf{b}^{(l)}$
+%           \State \quad \quad $\mathbf{a}^{(l)} = \sigma(\mathbf{z}^{(l)})$
+%           \State \quad 其中，$\sigma$为激活函数
+%           \State \textbf{计算损失}:
+%           \State \quad 使用损失函数计算输出层的损失$L$
+%           \State \textbf{反向传播}:
+%           \State \quad 计算输出层的误差:
+%           \State \quad \quad $\delta^{(L)} = \mathbf{a}^{(L)} - \mathbf{y}$
+%           \State \quad 计算隐藏层的误差:
+%           \State \quad \quad $\delta^{(l)} = (\mathbf{W}^{(l+1)})^T \delta^{(l+1)} \odot \sigma'(\mathbf{z}^{(l)})$
+%           \State \quad 计算梯度:
+%           \State \quad \quad $\nabla_{\mathbf{W}^{(l)}} = \delta^{(l)} (\mathbf{a}^{(l-1)})^T$
+%           \State \quad \quad $\nabla_{\mathbf{b}^{(l)}} = \delta^{(l)}$
+%           \State \textbf{更新权重和偏置}:
+%           \State \quad $\mathbf{W}^{(l)} = \mathbf{W}^{(l)} - \eta \nabla_{\mathbf{W}^{(l)}}$
+%           \State \quad $\mathbf{b}^{(l)} = \mathbf{b}^{(l)} - \eta \nabla_{\mathbf{b}^{(l)}}$
+%         \EndFor
+%         \State 计算训练集和验证集的准确率
+%       \EndFor
+%     \EndProcedure
+%   \end{algorithmic}
+% \end{algorithm}
+
+\begin{algorithm}
+  \caption{全连接神经网络训练算法}
+  \label{FullyConnectedNN Training Algorithm}
+  \begin{algorithmic}[1]
+    \State 初始化网络的权重$\mathbf{W1}, \mathbf{W2}$和偏置$\mathbf{b1}, \mathbf{b2}$为随机值
+    \Procedure{训练}{X\_train, Y\_train, X\_val, Y\_val, batch\_size, learning\_rate, epochs}
+      \For{每个epoch}
+        \For{每个mini-batch}
+          \State \textbf{前向传播}:
+          \State \quad 设输入$\mathbf{X}$
+          \State \quad 计算第一层的输出和激活值:
+          \State \quad \quad $\mathbf{Z1} = \mathbf{X} \mathbf{W1} + \mathbf{b1}$
+          \State \quad \quad $\mathbf{A1} = \max(0, \mathbf{Z1})$ \Comment{ReLU激活函数}
+          \State \quad 计算第二层的输出和激活值:
+          \State \quad \quad $\mathbf{Z2} = \mathbf{A1} \mathbf{W2} + \mathbf{b2}$
+          \State \quad \quad $\mathbf{A2} = \text{softmax}(\mathbf{Z2})$
+          \State \textbf{计算损失}:
+          \State \quad 使用交叉熵损失函数计算损失$L$
+          \State \textbf{反向传播}:
+          \State \quad 计算输出层的误差$\delta^{(2)}$
+          \State \quad 计算隐藏层的误差$\delta^{(1)}$
+          \State \quad 计算梯度:
+          \State \quad \quad $\nabla_{\mathbf{W2}} = \mathbf{A1}^T \delta^{(2)}$
+          \State \quad \quad $\nabla_{\mathbf{b2}} = \sum \delta^{(2)}$
+          \State \quad \quad $\nabla_{\mathbf{W1}} = \mathbf{X}^T \delta^{(1)}$
+          \State \quad \quad $\nabla_{\mathbf{b1}} = \sum \delta^{(1)}$
+          \State \textbf{更新权重和偏置}:
+          \State \quad 使用学习率$\eta$更新$\mathbf{W1}, \mathbf{b1}, \mathbf{W2}, \mathbf{b2}$
+        \EndFor
+        \State 计算训练集和验证集的损失和准确率
+      \EndFor
+    \EndProcedure
+  \end{algorithmic}
+\end{algorithm}
+
+
 
 
 \subsection{实验结果与分析}
@@ -529,13 +735,226 @@ KNN算法的数学模型如下：
 
 \subsection{代码附录}
 
-
-
+\subsubsection{\texttt{cifar-10-scratch.ipynb}}
 \begin{lstlisting}[language=Python]
-# 实验三代码
+  import pickle
+  import numpy as np
+  import os
+  import matplotlib.pyplot as plt
+  
+  # 加载 CIFAR-10 批次数据
+  def load_cifar10_batch(filename):
+      with open(filename, 'rb') as f:
+          datadict = pickle.load(f, encoding='bytes')
+          X = datadict[b'data']
+          Y = datadict[b'labels']
+          X = X.reshape(10000, 3, 32, 32).astype("float")
+          Y = np.array(Y)
+          return X, Y
+  
+  # 加载所有 CIFAR-10 数据
+  def load_cifar10(ROOT):
+      xs = []
+      ys = []
+      for b in range(1, 6):
+          f = os.path.join(ROOT, 'data_batch_%d' % (b,))
+          X, Y = load_cifar10_batch(f)
+          xs.append(X)
+          ys.append(Y)
+      Xtr = np.concatenate(xs)
+      Ytr = np.concatenate(ys)
+      del X, Y
+      Xte, Yte = load_cifar10_batch(os.path.join(ROOT, 'test_batch'))
+      return Xtr, Ytr, Xte, Yte
+  
+  ROOT = './cifar-10-batches-py'
+  X_train, y_train, X_test, y_test = load_cifar10(ROOT)
+  
+  # 全连接神经网络类
+  class FullyConnectedNN:
+      def __init__(self, input_size, hidden_size, output_size):
+          self.W1 = np.random.randn(input_size, hidden_size) * 0.01
+          self.b1 = np.zeros((1, hidden_size))
+          self.W2 = np.random.randn(hidden_size, output_size) * 0.01
+          self.b2 = np.zeros((1, output_size))
+  
+      def relu(self, Z):
+          return np.maximum(0, Z)
+  
+      def softmax(self, Z):
+          expZ = np.exp(Z - np.max(Z))
+          return expZ / expZ.sum(axis=1, keepdims=True)
+  
+      def forward(self, X):
+          self.Z1 = np.dot(X, self.W1) + self.b1
+          self.A1 = self.relu(self.Z1)
+          self.Z2 = np.dot(self.A1, self.W2) + self.b2
+          self.A2 = self.softmax(self.Z2)
+          return self.A2
+  
+      def compute_loss(self, Y, Y_hat):
+          m = Y.shape[0]
+          log_likelihood = -np.log(Y_hat[range(m), Y])
+          loss = np.sum(log_likelihood) / m
+          return loss
+  
+      def backward(self, X, Y, Y_hat):
+          m = X.shape[0]
+          dZ2 = Y_hat
+          dZ2[range(m), Y] -= 1
+          dZ2 /= m
+  
+          dW2 = np.dot(self.A1.T, dZ2)
+          db2 = np.sum(dZ2, axis=0, keepdims=True)
+  
+          dA1 = np.dot(dZ2, self.W2.T)
+          dZ1 = dA1 * (self.Z1 > 0)
+  
+          dW1 = np.dot(X.T, dZ1)
+          db1 = np.sum(dZ1, axis=0, keepdims=True)
+  
+          self.W1 -= self.learning_rate * dW1
+          self.b1 -= self.learning_rate * db1
+          self.W2 -= self.learning_rate * dW2
+          self.b2 -= self.learning_rate * db2
+  
+      def compute_accuracy(self, X, Y):
+          Y_hat = self.forward(X)
+          predictions = np.argmax(Y_hat, axis=1)
+          accuracy = np.mean(predictions == Y)
+          return accuracy
+  
+      def train(self, X_train, Y_train, X_val, Y_val, epochs=300, learning_rate=0.01):
+          self.learning_rate = learning_rate
+          train_losses = []
+          val_losses = []
+          val_accuracies = []
+  
+          for epoch in range(epochs):
+              # 打乱训练数据
+              indices = np.arange(X_train.shape[0])
+              np.random.shuffle(indices)
+              X_train = X_train[indices]
+              Y_train = Y_train[indices]
+  
+              # 小批量梯度下降
+              for start_idx in range(0, X_train.shape[0], batch_size):
+                  end_idx = min(start_idx + batch_size, X_train.shape[0])
+                  X_batch = X_train[start_idx:end_idx]
+                  Y_batch = Y_train[start_idx:end_idx]
+  
+                  # 前向传播
+                  Y_hat_train = self.forward(X_batch)
+                  train_loss = self.compute_loss(Y_batch, Y_hat_train)
+                  
+                  # 反向传播
+                  self.backward(X_batch, Y_batch, Y_hat_train)
+  
+              # 每个 epoch 结束后计算验证集上的损失和准确率
+              Y_hat_val = self.forward(X_val)
+              val_loss = self.compute_loss(Y_val, Y_hat_val)
+              val_accuracy = self.compute_accuracy(X_val, Y_val)
+              
+              # 存储损失和准确率
+              train_losses.append(train_loss)
+              val_losses.append(val_loss)
+              val_accuracies.append(val_accuracy)
+              
+              # 打印每个 epoch 的损失和准确率
+              print(f'Epoch [{epoch + 1}], train_loss: {train_loss:.4f}, val_loss: {val_loss:.4f}, val_acc: {val_accuracy:.4f}')
+          
+          return train_losses, val_losses, val_accuracies
+  
+  # 预处理数据
+  X_train = X_train.reshape(X_train.shape[0], -1) / 255.0
+  X_test = X_test.reshape(X_test.shape[0], -1) / 255.0
+  
+  # 将训练数据分成训练集和验证集
+  split_index = int(0.8 * X_train.shape[0])
+  X_val, y_val = X_train[split_index:], y_train[split_index:]
+  X_train, y_train = X_train[:split_index], y_train[:split_index]
+  
+  # 超参数
+  input_size = 3072  # 32*32*3
+  hidden_size = 100
+  output_size = 10
+  learning_rate = 0.01
+  epochs = 100
+  batch_size = 64
+  
+  # 初始化并训练模型
+  model = FullyConnectedNN(input_size, hidden_size, output_size)
+  train_losses, val_losses, val_accuracies = model.train(X_train, y_train, X_val, y_val, epochs, learning_rate)
+  
+  # 在测试集上进行预测
+  y_pred = np.argmax(model.forward(X_test), axis=1)
+  accuracy = np.mean(y_pred == y_test)
+  print(f'测试集准确率: {accuracy:.4f}')
+  
+  # 绘制损失和准确率曲线
+  epochs_range = range(epochs)
+  plt.figure(figsize=(12, 4))
+  plt.subplot(1, 2, 1)
+  plt.plot(epochs_range, train_losses, label='训练损失')
+  plt.plot(epochs_range, val_losses, label='验证损失')
+  plt.xlabel('Epochs')
+  plt.ylabel('Loss')
+  plt.legend(loc='upper right')
+  plt.title('损失曲线')
+  
+  plt.subplot(1, 2, 2)
+  plt.plot(epochs_range, val_accuracies, label='验证准确率')
+  plt.xlabel('Epochs')
+  plt.ylabel('Accuracy')
+  plt.legend(loc='lower right')
+  plt.title('准确率曲线')
+  plt.show()
+  
+  # 计算混淆矩阵
+  def compute_confusion_matrix(y_true, y_pred, num_classes):
+      cm = np.zeros((num_classes, num_classes), dtype=int)
+      for i in range(len(y_true)):
+          cm[y_true[i], y_pred[i]] += 1
+      return cm
+  
+  # 绘制混淆矩阵
+  def plot_confusion_matrix(cm, classes, title='混淆矩阵', cmap=plt.cm.Blues):
+      plt.figure(figsize=(16, 12))
+      plt.imshow(cm, interpolation='nearest', cmap=cmap)
+      plt.title(title)
+      plt.colorbar()
+      tick_marks = np.arange(len(classes))
+      plt.xticks(tick_marks, classes, rotation=45)
+      plt.yticks(tick_marks, classes)
+  
+      fmt = 'd'
+      thresh = cm.max() / 2.
+      for i, j in np.ndindex(cm.shape):
+          plt.text(j, i, format(cm[i, j], fmt),
+                   horizontalalignment="center",
+                   color="white" if cm[i, j] > thresh else "black")
+  
+      plt.ylabel('真实标签')
+      plt.xlabel('预测标签')
+      plt.tight_layout()
+      plt.show()
+  
+  # CIFAR-10 标签
+  cifar10_labels = ['airplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']
+  
+  # 计算并绘制混淆矩阵
+  cm = compute_confusion_matrix(y_test, y_pred, len(cifar10_labels))
+  plot_confusion_matrix(cm, classes=cifar10_labels)
+  
 \end{lstlisting}
 
 \newpage
 \section{\centering 心得体会}
+
+\subsection{关于上课的体会}
+
+\subsection{关于实验的体会}
+
+\subsection{总的体会}
 
 \end{document}
