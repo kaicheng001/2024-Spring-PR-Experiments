@@ -647,7 +647,7 @@ BP神经网络的数学模型如图~\ref{fig:fcnn_structure} 所示。
     \draw [<-] (input-\i) -- ++(-1,0)
     node [above, midway] {$I_{\l}$};
 
-    \foreach \l [count=\i] in {1,100}
+    \foreach \l [count=\i] in {1,128}
     \node [above] at (hidden-\i.north) {$H_{\l}$};
 
     \foreach \l [count=\i] in {1,10}
