@@ -1,1 +1,1 @@
-# This is the experiments of *Pattern Recognition* in Southeast University, Spring 2024
+# This is the experiment conducted by the *Pattern Recognition* course at Southeast University during the spring semester of 2024.
