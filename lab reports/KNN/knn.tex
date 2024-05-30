@@ -36,7 +36,7 @@
 
 % 设置中文主字体为宋体，指定相对路径
 \setCJKmainfont[
-    Path = ./,
+    Path = ./fonts/,
     BoldFont = SimSun.ttc,
     ItalicFont = SimSun.ttc
 ]{SimSun.ttc}
@@ -539,7 +539,7 @@ KNN算法的数学模型如下：
   \item \textbf{数据加载与预处理}:
         \begin{enumerate}
           \item 从CIFAR-10数据集中加载图像数据和标签。
-          \item 将图像数据从原始格式转换为适用于神经网络的格式（32 $\times$ 32 $\times$ 3 $\rightarrow$ 3072）。
+          \item 将图像数据从原始格式转换为适用于神经网络的格式（32 $\times$ 32 $\times$ 3 $\rightarrow$ 3072 $\times$ 1）。
           \item 将图像数据进行归一化处理，将像素值缩放到[0, 1]范围内。
         \end{enumerate}
 
@@ -563,7 +563,7 @@ KNN算法的数学模型如下：
 
   \item \textbf{模型训练}:
         \begin{enumerate}
-          \item 使用小批量梯度下降（Mini-Batch Gradient Descent）优化网络权重。
+          \item 使用小批量梯度下降优化网络权重。
           \item 在每个epoch结束后，计算并记录训练损失、验证损失和验证准确率。
         \end{enumerate}
 

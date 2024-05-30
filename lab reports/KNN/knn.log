@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2024.2.29)  30 MAY 2024 11:43
+This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2024.2.29)  30 MAY 2024 20:00
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -853,22 +853,22 @@ Package xeCJK Warning: Redefining CJKfamily `\CJKrmdefault' (SimSun(0)).
 
 Package fontspec Info: Font family 'SimSun.ttc(0)' created for font
 (fontspec)             'SimSun.ttc' with options
-(fontspec)             [Script={CJK},Path={./},BoldFont={SimSun.ttc},ItalicFont={SimSun.ttc}].
+(fontspec)             [Script={CJK},Path={./fonts/},BoldFont={SimSun.ttc},ItalicFont={SimSun.ttc}].
 (fontspec)              
 (fontspec)              This font family consists of the following NFSS
 (fontspec)             series/shapes:
 (fontspec)              
 (fontspec)             - 'normal' (m/n) with NFSS spec.:
-(fontspec)             <->"[./SimSun.ttc]/OT:script=hani;language=dflt;"
+(fontspec)             <->"[./fonts/SimSun.ttc]/OT:script=hani;language=dflt;"
 (fontspec)             - 'small caps'  (m/sc) with NFSS spec.: 
 (fontspec)             - 'bold' (b/n) with NFSS spec.:
-(fontspec)             <->"[./SimSun.ttc]/OT:script=hani;language=dflt;"
+(fontspec)             <->"[./fonts/SimSun.ttc]/OT:script=hani;language=dflt;"
 (fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.: 
 (fontspec)             - 'italic' (m/it) with NFSS spec.:
-(fontspec)             <->"[./SimSun.ttc]/OT:script=hani;language=dflt;"
+(fontspec)             <->"[./fonts/SimSun.ttc]/OT:script=hani;language=dflt;"
 (fontspec)             - 'italic small caps'  (m/scit) with NFSS spec.: 
 (fontspec)             - 'bold italic' (b/it) with NFSS spec.:
-(fontspec)             <->"[./SimSun.ttc]/OT:script=hani;language=dflt;"
+(fontspec)             <->"[./fonts/SimSun.ttc]/OT:script=hani;language=dflt;"
 (fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.: 
 
 
@@ -1385,12 +1385,15 @@ L3 programming layer <2022/08/05>
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
 Package rerunfilecheck Info: File `knn.out' has not changed.
 (rerunfilecheck)             Checksum: CBB848C9312A36F50F4CDB8CE4FBDFB7;5992.
  ) 
 Here is how much of TeX's memory you used:
  33359 strings out of 474794
- 711189 string characters out of 5758529
+ 711243 string characters out of 5758529
  2253842 words of memory out of 5000000
  54874 multiletter control sequences out of 15000+600000
  567150 words of font info for 125 fonts, out of 8000000 for 9000
