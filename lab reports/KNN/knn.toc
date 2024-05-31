@@ -1,0 +1,50 @@
+\contentsline {section}{\numberline {1}\centering 实验一 KNN Classification}{4}{section.1}%
+\contentsline {subsection}{\numberline {1.1}问题描述}{4}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}概述}{4}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}任务说明}{4}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}实现步骤与流程}{4}{subsection.1.4}%
+\contentsline {subsubsection}{\numberline {1.4.1}实验思路}{4}{subsubsection.1.4.1}%
+\contentsline {subsubsection}{\numberline {1.4.2}数学模型}{5}{subsubsection.1.4.2}%
+\contentsline {subsubsection}{\numberline {1.4.3}关键难点}{6}{subsubsection.1.4.3}%
+\contentsline {subsubsection}{\numberline {1.4.4}算法描述}{6}{subsubsection.1.4.4}%
+\contentsline {subsubsection}{\numberline {1.4.5}马氏距离梯度计算公式推导}{8}{subsubsection.1.4.5}%
+\contentsline {subsection}{\numberline {1.5}实验结果与分析}{9}{subsection.1.5}%
+\contentsline {subsubsection}{\numberline {1.5.1}数据集的部分可视化分析}{9}{subsubsection.1.5.1}%
+\contentsline {subsubsection}{\numberline {1.5.2}实验结果的分析}{9}{subsubsection.1.5.2}%
+\contentsline {subsection}{\numberline {1.6}MindSpore 学习使用心得体会}{11}{subsection.1.6}%
+\contentsline {subsection}{\numberline {1.7}代码附录（数据加载可视化展示部分，具体见knn.ipynb文件）}{11}{subsection.1.7}%
+\contentsline {subsubsection}{\numberline {1.7.1}knn.ipynb}{11}{subsubsection.1.7.1}%
+\contentsline {subsubsection}{\numberline {1.7.2}knn\_mindspore.ipynb}{11}{subsubsection.1.7.2}%
+\contentsline {section}{\numberline {2}\centering 实验二 Na\"ive Bayes Classification}{12}{section.2}%
+\contentsline {subsection}{\numberline {2.1}问题描述}{12}{subsection.2.1}%
+\contentsline {subsubsection}{\numberline {2.1.1}概述}{12}{subsubsection.2.1.1}%
+\contentsline {subsubsection}{\numberline {2.1.2}任务说明}{12}{subsubsection.2.1.2}%
+\contentsline {subsection}{\numberline {2.2}实现步骤与流程}{13}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1}实验思路}{13}{subsubsection.2.2.1}%
+\contentsline {subsubsection}{\numberline {2.2.2}数学模型}{13}{subsubsection.2.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.3}关键难点}{13}{subsubsection.2.2.3}%
+\contentsline {subsubsection}{\numberline {2.2.4}算法描述}{13}{subsubsection.2.2.4}%
+\contentsline {subsection}{\numberline {2.3}实验结果与分析}{13}{subsection.2.3}%
+\contentsline {subsubsection}{\numberline {2.3.1}手动实现朴素贝叶斯算法}{13}{subsubsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.4}MindSpore 学习使用心得体会}{13}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}代码附录}{13}{subsection.2.5}%
+\contentsline {section}{\numberline {3}\centering 实验三 Neural Network Image Classification}{16}{section.3}%
+\contentsline {subsection}{\numberline {3.1}问题描述}{16}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}概述}{16}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}任务说明}{16}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}实现步骤与流程}{16}{subsection.3.4}%
+\contentsline {subsubsection}{\numberline {3.4.1}实验环境}{16}{subsubsection.3.4.1}%
+\contentsline {subsubsection}{\numberline {3.4.2}实验思路}{16}{subsubsection.3.4.2}%
+\contentsline {subsubsection}{\numberline {3.4.3}数学模型}{18}{subsubsection.3.4.3}%
+\contentsline {subsubsection}{\numberline {3.4.4}关键难点}{20}{subsubsection.3.4.4}%
+\contentsline {subsubsection}{\numberline {3.4.5}算法描述}{20}{subsubsection.3.4.5}%
+\contentsline {subsection}{\numberline {3.5}实验结果与分析}{20}{subsection.3.5}%
+\contentsline {subsubsection}{\numberline {3.5.1}实验结果展示}{20}{subsubsection.3.5.1}%
+\contentsline {subsubsection}{\numberline {3.5.2}进一步探究}{20}{subsubsection.3.5.2}%
+\contentsline {subsection}{\numberline {3.6}MindSpore 学习使用心得体会}{22}{subsection.3.6}%
+\contentsline {subsection}{\numberline {3.7}代码附录}{22}{subsection.3.7}%
+\contentsline {subsubsection}{\numberline {3.7.1}cifar-10-scratch.ipynb}{22}{subsubsection.3.7.1}%
+\contentsline {section}{\numberline {4}\centering 心得体会}{30}{section.4}%
+\contentsline {subsection}{\numberline {4.1}关于上课的体会}{30}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}关于实验的体会}{30}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}总的体会}{30}{subsection.4.3}%
