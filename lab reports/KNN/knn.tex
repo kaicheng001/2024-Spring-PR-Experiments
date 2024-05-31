@@ -24,7 +24,7 @@
 \usepackage[table]{xcolor} % For coloring tables
 \usepackage{tabularx} % For auto-sized table columns
 \usepackage{algorithm}
-
+% \usepackage{algorithmic}
 \usepackage{algpseudocode}
 \usepackage{enumitem}
 \usepackage{tikz}
@@ -554,130 +554,136 @@ KNN的改进：
 可以将类条件概率分布分解为各个特征的条件概率分布的乘积。这样可以大大减少计算量。
 
 \subsubsection{算法描述}
-朴素贝叶斯算法实现的伪代码如算法~\ref{Optimized Multinomial Naive Bayes} 所示。
-\begin{algorithm}
-  \caption{Optimized Multinomial Naive Bayes}
-  \label{Optimized Multinomial Naive Bayes}
+朴素贝叶斯算法实现的伪代码如算法~\ref{Naive Bayes Classifier} 所示。
+\begin{algorithm}[H]
+  \caption{朴素贝叶斯分类器}
+  \label{Naive Bayes Classifier}
   \begin{algorithmic}[1]
-    \State \textbf{Input:} 平滑参数 $\alpha$
-    \State \textbf{Initialize:}
-    \State \quad 类别数 $n\_classes$
-    \State \quad 特征数 $n\_features$
-    \State \quad 类别计数 $class\_count$
-    \State \quad 特征计数 $feature\_count$
-    \State \quad 类别对数先验 $class\_log\_prior$
-    \State \quad 特征对数概率 $feature\_log\_prob$
-
-    \Procedure{拟合}{X, y}
-    \State 获取唯一类别 $classes = \text{np.unique}(y)$
-    \State 初始化类别计数 $class\_count$ 和特征计数 $feature\_count$
-    \For{每个类别 $c \in classes$}
-    \State 获取属于类别 $c$ 的样本 $X_c$
-    \State 更新类别计数 $class\_count[c]$
-    \State 更新特征计数 $feature\_count[c, :]$
-    \EndFor
-    \State 计算类别对数先验 $class\_log\_prior$
-    \State 计算特征对数概率 $feature\_log\_prob$
-    \EndProcedure
-
-    \Procedure{预测}{X}
-    \State 计算对数似然 $log\_likelihood = X \times feature\_log\_prob^T$
-    \State 计算对数后验概率 $log\_posterior = log\_likelihood + class\_log\_prior$
-    \State 返回类别 $classes[\text{np.argmax}(log\_posterior, axis=1)]$
-    \EndProcedure
-
+  \State \textbf{初始化:}
+  \State 定义类别列表 $classes$
+  \State 定义类别先验概率 $class\_priors$
+  \State 定义特征概率 $feature\_probs$
+  
+  \Procedure{fit}{X, y}
+      \State 获取唯一类别 $classes = \text{np.unique}(y)$
+      \For{每个类别 $cls$ in $classes$}
+          \State 获取属于类别 $cls$ 的样本 $X_{cls}$
+          \State 计算先验概率:
+          \[P(cls) = \frac{|X_{cls}|}{|X|}\]
+          \State 计算特征条件概率:
+          \[P(x_i | cls) = \frac{\sum X_{cls,i} + 1}{|X_{cls}| + 2}\]
+      \EndFor
+  \EndProcedure
+  \Procedure{predict}{X}
+      \For{每个样本 $x$ in X}
+          \For{每个类别 $cls$ in $classes$}
+              \State 计算后验概率:
+              \[\log P(cls | x) = \log P(cls) + \sum (\log P(x_i | cls) \times x_i + \log (1 - P(x_i | cls)) \times (1 - x_i))\]
+          \EndFor
+          \State 选择最大后验概率对应的类别
+      \EndFor
+  \EndProcedure
   \end{algorithmic}
 \end{algorithm}
-
+  
 \subsection{实验结果与分析}
 \subsubsection{手动实现朴素贝叶斯算法}
-利用课程所提供的MNIST数据集，我们手动实现了朴素贝叶斯算法，并在测试集上进行了分类。可以看出实验的准确率为\textbf{70.26\%}。
+利用课程所提供的MNIST数据集，我们手动实现了朴素贝叶斯算法，并在测试集上进行了分类。可以看出实验的准确率为\textbf{84.27\%}。
 
 为便于观察手动实现朴素贝叶斯算法模型的性能，我们在部分验证集上进行了测试，测试结果如图~\ref{fig:手动实现Na\"ive Bayes测试结果} 所示。
 可以看出在多数图片的预测中，手动实现的朴素贝叶斯算法还是能够将MNIST数据集中的数字进行正确分类的。
+
 \begin{figure}[htbp]
   \centering
+  \includegraphics[scale=0.6]{figures/naive/manual_8427.png}
   \caption{手动实现Na\"ive Bayes测试结果}
   \label{fig:手动实现Na\"ive Bayes测试结果}
-  \begin{minipage}{0.49\linewidth}
-    \centering
-    \includegraphics[width=0.5\linewidth]{figures/naive/1_1.png}
-    % \caption{Na\"ive Bayes测试一}
-    % \label{Na\"ive Bayes测试一}%文中引用该图片代号
-  \end{minipage}
-  \begin{minipage}{0.49\linewidth}
-    \centering
-    \includegraphics[width=0.5\linewidth]{figures/naive/1_2.png}
-    % \caption{Na\"ive Bayes测试二}
-    % \label{Na\"ive Bayes测试二}%文中引用该图片代号
-  \end{minipage}
-  %\qquad
-  %让图片换行，
-
-  \begin{minipage}{0.49\linewidth}
-    \centering
-    \includegraphics[width=0.5\linewidth]{figures/naive/1_3.png}
-    % \caption{Na\"ive Bayes测试三}
-    % \label{Na\"ive Bayes测试三}%文中引用该图片代号
-  \end{minipage}
-  \begin{minipage}{0.49\linewidth}
-    \centering
-    \includegraphics[width=0.5\linewidth]{figures/naive/1_4.png}
-    % \caption{Na\"ive Bayes测试四}
-    % \label{Na\"ive Bayes测试四}%文中引用该图片代号
-  \end{minipage}
-
-
-  \begin{minipage}{0.49\linewidth}
-    \centering
-    \includegraphics[width=0.5\linewidth]{figures/naive/1_5.png}
-    % \caption{Na\"ive Bayes测试五}
-    % \label{Na\"ive Bayes测试五}%文中引用该图片代号
-  \end{minipage}
-  \begin{minipage}{0.49\linewidth}
-    \centering
-    \includegraphics[width=0.5\linewidth]{figures/naive/1_6.png}
-    % \caption{Na\"ive Bayes测试六}
-    % \label{Na\"ive Bayes测试六}%文中引用该图片代号
-  \end{minipage}
-
-
-  \begin{minipage}{0.49\linewidth}
-    \centering
-    \includegraphics[width=0.5\linewidth]{figures/naive/1_7.png}
-    % \caption{Na\"ive Bayes测试七}
-    % \label{Na\"ive Bayes测试七}%文中引用该图片代号
-  \end{minipage}
-  \begin{minipage}{0.49\linewidth}
-    \centering
-    \includegraphics[width=0.5\linewidth]{figures/naive/1_8.png}
-    % \caption{Na\"ive Bayes测试八}
-    % \label{Na\"ive Bayes测试八}%文中引用该图片代号
-  \end{minipage}
-
-
-  \begin{minipage}{0.49\linewidth}
-    \centering
-    \includegraphics[width=0.5\linewidth]{figures/naive/1_9.png}
-    % \caption{Na\"ive Bayes测试九}
-    % \label{Na\"ive Bayes测试九}%文中引用该图片代号
-  \end{minipage}
-  \begin{minipage}{0.49\linewidth}
-    \centering
-    \includegraphics[width=0.5\linewidth]{figures/naive/1_10.png}
-    % \caption{Na\"ive Bayes测试十}
-    % \label{Na\"ive Bayes测试十}%文中引用该图片代号
-  \end{minipage}
-
-
 \end{figure}
+
+
+% \begin{figure}[htbp]
+%   \centering
+%   \caption{手动实现Na\"ive Bayes测试结果}
+%   \label{fig:手动实现Na\"ive Bayes测试结果}
+%   \begin{minipage}{0.49\linewidth}
+%     \centering
+%     \includegraphics[width=0.5\linewidth]{figures/naive/1_1.png}
+%     % \caption{Na\"ive Bayes测试一}
+%     % \label{Na\"ive Bayes测试一}%文中引用该图片代号
+%   \end{minipage}
+%   \begin{minipage}{0.49\linewidth}
+%     \centering
+%     \includegraphics[width=0.5\linewidth]{figures/naive/1_2.png}
+%     % \caption{Na\"ive Bayes测试二}
+%     % \label{Na\"ive Bayes测试二}%文中引用该图片代号
+%   \end{minipage}
+%   %\qquad
+%   %让图片换行，
+
+%   \begin{minipage}{0.49\linewidth}
+%     \centering
+%     \includegraphics[width=0.5\linewidth]{figures/naive/1_3.png}
+%     % \caption{Na\"ive Bayes测试三}
+%     % \label{Na\"ive Bayes测试三}%文中引用该图片代号
+%   \end{minipage}
+%   \begin{minipage}{0.49\linewidth}
+%     \centering
+%     \includegraphics[width=0.5\linewidth]{figures/naive/1_4.png}
+%     % \caption{Na\"ive Bayes测试四}
+%     % \label{Na\"ive Bayes测试四}%文中引用该图片代号
+%   \end{minipage}
+
+
+%   \begin{minipage}{0.49\linewidth}
+%     \centering
+%     \includegraphics[width=0.5\linewidth]{figures/naive/1_5.png}
+%     % \caption{Na\"ive Bayes测试五}
+%     % \label{Na\"ive Bayes测试五}%文中引用该图片代号
+%   \end{minipage}
+%   \begin{minipage}{0.49\linewidth}
+%     \centering
+%     \includegraphics[width=0.5\linewidth]{figures/naive/1_6.png}
+%     % \caption{Na\"ive Bayes测试六}
+%     % \label{Na\"ive Bayes测试六}%文中引用该图片代号
+%   \end{minipage}
+
+
+%   \begin{minipage}{0.49\linewidth}
+%     \centering
+%     \includegraphics[width=0.5\linewidth]{figures/naive/1_7.png}
+%     % \caption{Na\"ive Bayes测试七}
+%     % \label{Na\"ive Bayes测试七}%文中引用该图片代号
+%   \end{minipage}
+%   \begin{minipage}{0.49\linewidth}
+%     \centering
+%     \includegraphics[width=0.5\linewidth]{figures/naive/1_8.png}
+%     % \caption{Na\"ive Bayes测试八}
+%     % \label{Na\"ive Bayes测试八}%文中引用该图片代号
+%   \end{minipage}
+
+
+%   \begin{minipage}{0.49\linewidth}
+%     \centering
+%     \includegraphics[width=0.5\linewidth]{figures/naive/1_9.png}
+%     % \caption{Na\"ive Bayes测试九}
+%     % \label{Na\"ive Bayes测试九}%文中引用该图片代号
+%   \end{minipage}
+%   \begin{minipage}{0.49\linewidth}
+%     \centering
+%     \includegraphics[width=0.5\linewidth]{figures/naive/1_10.png}
+%     % \caption{Na\"ive Bayes测试十}
+%     % \label{Na\"ive Bayes测试十}%文中引用该图片代号
+%   \end{minipage}
+
+
+% \end{figure}
 
 \subsubsection{mindSpore实现朴素贝叶斯算法}
 
 
 \subsubsection{手动实现算法的评价}
 本实验要求手动实现朴素贝叶斯算法，这里我实现的是基于多项式朴素贝叶斯算法，并进行了label smoothing。
-实验结果表明，手动实现的朴素贝叶斯算法在MNIST数据集上的分类准确率为70.26\%。这个准确率相对较低，
+实验结果表明，手动实现的朴素贝叶斯算法在MNIST数据集上的分类准确率为84.27\%。这个准确率相对较低，
 可能是因为手动实现的朴素贝叶斯算法对数据集的特征提取和分类效果不够好。
 
 未来可以采用半朴素贝叶斯算法，适当考虑一部分属性间的相互依赖信息，从而既不需要进行完全联合概率计算，又不至于彻底忽略了比较强的相互依赖关系。
@@ -1156,7 +1162,7 @@ BP神经网络的数学模型如图~\ref{fig:fcnn_structure} 所示。
 \begin{enumerate}
   \item \textbf{模型复杂度}：手动实现的算法只使用了单隐藏层的前馈神经网络，模型复杂度较低，难以捕捉数据集的复杂特征。
   \item \textbf{优化算法}：手动实现的算法使用了简单的小批量梯度下降优化算法，收敛速度较慢，难以达到较高的准确率。
-  而mindspore中泽用的是SGD、Adam等高级的优化算法。
+        而mindspore中泽用的是SGD、Adam等高级的优化算法。
   \item \textbf{超参数调优}：手动实现的算法中的超参数（学习率、批次大小、隐藏层神经元数量等）未经过充分调优，可能导致模型性能不佳。
 \end{enumerate}
 
