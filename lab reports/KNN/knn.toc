@@ -12,9 +12,9 @@
 \contentsline {subsubsection}{\numberline {1.5.1}数据集的部分可视化分析}{9}{subsubsection.1.5.1}%
 \contentsline {subsubsection}{\numberline {1.5.2}实验结果的分析}{9}{subsubsection.1.5.2}%
 \contentsline {subsubsection}{\numberline {1.5.3}手动实现算法的评价}{11}{subsubsection.1.5.3}%
-\contentsline {subsection}{\numberline {1.6}MindSpore 学习使用心得体会}{14}{subsection.1.6}%
-\contentsline {subsection}{\numberline {1.7}代码附录（数据加载可视化展示部分，具体见knn.ipynb文件）}{14}{subsection.1.7}%
-\contentsline {subsubsection}{\numberline {1.7.1}knn.ipynb}{14}{subsubsection.1.7.1}%
+\contentsline {subsection}{\numberline {1.6}MindSpore 学习使用心得体会}{15}{subsection.1.6}%
+\contentsline {subsection}{\numberline {1.7}代码附录（数据加载可视化展示部分，具体见knn.ipynb文件）}{15}{subsection.1.7}%
+\contentsline {subsubsection}{\numberline {1.7.1}knn.ipynb}{15}{subsubsection.1.7.1}%
 \contentsline {subsubsection}{\numberline {1.7.2}knn\_mindspore.ipynb}{21}{subsubsection.1.7.2}%
 \contentsline {section}{\numberline {2}\centering 实验二 Na\"ive Bayes Classification}{24}{section.2}%
 \contentsline {subsection}{\numberline {2.1}问题描述}{24}{subsection.2.1}%

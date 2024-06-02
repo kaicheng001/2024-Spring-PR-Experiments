@@ -398,6 +398,9 @@ KNN算法的数学模型如下：
 \end{enumerate}
 而$k$值过大就相当于是对所有样本进行投票，根据本实验模型（基于欧氏距离）所得的结果发现，$k \geq 93$时，准确率降到最低的26.67\%。
 
+同时，通过图~\ref{fig:accuracy} 和图~\ref{fig:accuracy2}，我们还发现，准确率并不是$k$变化就随着变化的，而是几近分段变化的，
+这从侧面说明了本实验Iris数据集的离散属性，即不同类别的鸢尾花在特征空间中的分布是不均匀的。
+
 \begin{figure}[htbp]
   \centering
   \includegraphics[scale=0.8]{figures/knn/accuracy.png}
