@@ -460,12 +460,352 @@ KNN的改进：
 \subsection{代码附录（数据加载可视化展示部分，具体见knn.ipynb文件）}
 \subsubsection{knn.ipynb}
 \begin{lstlisting}[language=Python]
-# 实验一代码
+  import numpy as np
+  import pandas as pd
+  import matplotlib.pyplot as plt
+  import plotly.express as px
+  import seaborn as sns
+  
+  iris_train = pd.read_csv("data/train.csv") 
+  
+  class KNN:
+      def __init__(self, n_neighbors=5):
+          self.n_neighbors = n_neighbors
+          
+      def euclidean_distance(self, x1, x2):
+          return np.linalg.norm(x1 - x2)
+  
+      def fit(self, X_train, y_train):
+          self.X_train = X_train
+          self.y_train = y_train
+  
+      def predict(self, X):
+          # Create empty array to store the predictions
+          predictions = []
+          # Loop over X examples
+          for x in X:
+              # Get prediction using the prediction helper function
+              prediction = self._predict(x)
+              # Append the prediction to the predictions list
+              predictions.append(prediction)
+          return np.array(predictions)
+      
+  
+      def _predict(self, x):
+          # Create empty array to store distances
+          distances = []
+          # Loop over all training examples and compute the distance between x and all the training examples 
+          for x_train in self.X_train:
+              distance = self.euclidean_distance(x, x_train)
+              distances.append(distance)
+          distances = np.array(distances)
+          
+          # Sort by ascendingly distance and return indices of the given n neighbours
+          n_neighbors_idxs = np.argsort(distances)[: self.n_neighbors]
+          
+          # Get labels of n-neighbour indexes
+          labels = self.y_train[n_neighbors_idxs]                  
+          labels = list(labels)
+          # Get the most frequent class in the array
+          most_occuring_value = max(labels, key=labels.count)
+          return most_occuring_value
+      
+  class KNN2:
+      def __init__(self, n_neighbors=5, e=2, learning_rate=0.01, max_iter=100):
+          self.n_neighbors = n_neighbors
+          self.e = e
+          self.learning_rate = learning_rate
+          self.max_iter = max_iter
+          self.X_train = None
+          self.y_train = None
+          self.A = None
+          
+      def fit(self, X_train, y_train):
+          self.X_train = X_train
+          self.y_train = y_train
+          n_samples, n_features = X_train.shape
+          
+          # Initialize matrix A randomly
+          self.A = np.random.rand(self.e, n_features)
+          
+          # Gradient descent to learn A
+          for iteration in range(self.max_iter):
+              gradient = np.zeros_like(self.A)
+              for i in range(n_samples):
+                  xi = X_train[i]
+                  yi = y_train[i]
+                  same_class_indices = np.where(y_train == yi)[0]
+                  for j in same_class_indices:
+                      if i == j:
+                          continue
+                      xj = X_train[j]
+                      pij = self._compute_pij(xi, xj, i, same_class_indices)
+                      diff = xi - xj
+                      gradient += 2 * pij * np.outer(self.A @ diff, diff)
+              
+              self.A -= self.learning_rate * gradient / n_samples
+      
+      def _compute_pij(self, xi, xj, i, same_class_indices):
+          numerator = np.exp(-self.mahalanobis_distance(xi, xj) ** 2)
+          denominator = 0
+          for k in same_class_indices:
+              if k == i:
+                  continue
+              xk = self.X_train[k]
+              denominator += np.exp(-self.mahalanobis_distance(xi, xk) ** 2)
+          return numerator / denominator
+  
+      def mahalanobis_distance(self, x1, x2):
+          diff = x1 - x2
+          return np.sqrt(np.dot(np.dot(diff, self.A.T @ self.A), diff))
+  
+      def predict(self, X):
+          # Create empty array to store the predictions
+          predictions = []
+          # Loop over X examples
+          for x in X:
+              # Get prediction using the prediction helper function
+              prediction = self._predict(x)
+              # Append the prediction to the predictions list
+              predictions.append(prediction)
+          return np.array(predictions)
+      
+      def _predict(self, x):
+          # Create empty array to store distances
+          distances = []
+          # Loop over all training examples and compute the distance between x and all the training examples 
+          for x_train in self.X_train:
+              distance = self.mahalanobis_distance(x, x_train)
+              distances.append(distance)
+          distances = np.array(distances)
+          
+          # Sort by ascendingly distance and return indices of the given n neighbours
+          n_neighbors_idxs = np.argsort(distances)[:self.n_neighbors]
+          
+          # Get labels of n-neighbour indexes
+          labels = self.y_train[n_neighbors_idxs]
+          labels = list(labels)
+          # Get the most frequent class in the array
+          most_occuring_value = max(labels, key=labels.count)
+          return most_occuring_value
+  
+  # 读取训练集
+  train_data = pd.read_csv('data/train.csv')
+  X_train = train_data[['Sepal Length', 'Sepal Width', 'Petal Length', 'Petal Width']]
+  y_train = train_data['label']
+  
+  # 读取验证集
+  test_data = pd.read_csv('data/val.csv')
+  X_test = test_data[['Sepal Length', 'Sepal Width', 'Petal Length', 'Petal Width']]
+  y_test = test_data['label']
+  
+  # 检查数据类型并转换为浮点型
+  X_train = X_train.astype(float)
+  X_test = X_test.astype(float)
+  
+  # 确保数据为NumPy数组
+  X_train = X_train.values
+  X_test = X_test.values
+  
+  # 检查y_train和y_test是否为整数型
+  y_train = y_train.astype(int)
+  y_test = y_test.astype(int)
+  
+  # 确保y_train和y_test为NumPy数组
+  y_train = y_train.values
+  y_test = y_test.values
+  
+  model = KNN(3)
+  model.fit(X_train, y_train)
+  model2 =KNN2(3)
+  model2.fit(X_train, y_train)
+  
+  def compute_accuracy(y_true, y_pred):
+      """
+      Computes the accuracy of a classification model.
+  
+      Parameters:
+      y_true (numpy array): A numpy array of true labels for each data point.
+      y_pred (numpy array): A numpy array of predicted labels for each data point.
+  
+      Returns:
+      float: The accuracy of the model, expressed as a percentage.
+      """
+      y_true = y_true.flatten()
+      total_samples = len(y_true)
+      correct_predictions = np.sum(y_true == y_pred)
+      return (correct_predictions / total_samples) 
+  
+  predictions = model.predict(X_test)
+  accuracy = compute_accuracy(y_test, predictions)
+  print(f" our model got accuracy score of : {accuracy}")   
+  
+  
+  # 初始化列表
+  a_index = list(range(1, 31))
+  accuracies = []
+  
+  # 测试不同的邻居数
+  for k in a_index:
+      kcs = KNN(n_neighbors=k)
+      kcs.fit(X_train, y_train)
+      y_pred = kcs.predict(X_test)
+      accuracy = compute_accuracy(y_test, y_pred)
+      accuracies.append(accuracy)
+  
+  # 转换为Pandas Series
+  a_series = pd.Series(accuracies, index=a_index)
+  
+  # 绘制结果
+  plt.plot(a_index, a_series)
+  plt.xlabel('Number of Neighbors')
+  plt.ylabel('Accuracy')
+  plt.xticks(a_index)
+  plt.title('KNN Accuracy for Different k Values')
+  plt.show()
+  
+  test_csv = pd.read_csv('data/test_data.csv')
+  test_pred = test_csv[['Sepal Length', 'Sepal Width', 'Petal Length', 'Petal Width']]
+  
+  # 检查数据类型并转换为浮点型
+  test_pred = test_pred.astype(float)
+  
+  # 确保数据为NumPy数组
+  
+  test_pred = test_pred.values
+  
+  #对test_csv文件的每一项进行预测
+  
+  predictions = model.predict(test_pred)
+  predictions = predictions.astype(int)
+  predictions = pd.DataFrame(predictions, columns=['label'])
+  predictions.to_csv('task1_test_prediction.csv', index=False)
+  predictions.head().style.background_gradient(sns.color_palette("YlOrBr", as_cmap=True))
+  
+  test_csv2 = pd.read_csv('data/test_data.csv')
+  test_pred2 = test_csv[['Sepal Length', 'Sepal Width', 'Petal Length', 'Petal Width']]
+  
+  # 检查数据类型并转换为浮点型
+  test_pred2 = test_pred2.astype(float)
+  
+  # 确保数据为NumPy数组
+  
+  test_pred2 = test_pred2.values
+  
+  #对test_csv文件的每一项进行预测
+  
+  predictions2 = model2.predict(test_pred2)
+  predictions2 = predictions2.astype(int)
+  predictions2 = pd.DataFrame(predictions2, columns=['label'])
+  predictions2.to_csv('task2_test_prediction.csv', index=False)
+  iris_train.head().style.background_gradient(sns.color_palette("YlOrBr", as_cmap=True))
+  
+  # 读取两个CSV文件
+  file1 = pd.read_csv('task1_test_prediction.csv')
+  file2 = pd.read_csv('task2_test_prediction.csv')
+  
+  # 比较两个DataFrame并找出不同
+  comparison = file1 == file2
+  
+  # 找出不同的行和列
+  differences = comparison[comparison == False]
+  
+  # 打印出不同的值和位置
+  print("Differences found at these locations:")
+  print(differences)
+  
+  # 显示不同的行
+  diff_rows = differences.dropna(how='all')
+  print("Rows with differences:")
+  print(diff_rows)
+  
+  # 显示不同的列
+  diff_cols = differences.dropna(axis=1, how='all')
+  print("Columns with differences:")
+  print(diff_cols)
 \end{lstlisting}
 
 \subsubsection{knn\_mindspore.ipynb}
 \begin{lstlisting}[language=Python]
-# 实验一代码
+  import mindspore.context as context
+  import mindspore.numpy as mnp
+  import mindspore.ops as ops
+  import pandas as pd
+  from mindspore import Tensor
+  
+  # 设置MindSpore的运行环境
+  context.set_context(mode=context.GRAPH_MODE, device_target="CPU")
+  
+  # 自定义数据加载函数
+  def load_data(file_path, has_label=True):
+      data = pd.read_csv(file_path)
+      if has_label:
+          X = data.iloc[:, :-1].values
+          y = data.iloc[:, -1].values
+          return X, y
+      else:
+          X = data.values
+          return X
+  
+  # 加载数据
+  X_train, y_train = load_data('data/train.csv')
+  X_val, y_val = load_data('data/val.csv')
+  X_test = load_data('data/test_data.csv', has_label=False)
+  
+  # 将数据转换为MindSpore张量
+  X_train = Tensor(X_train, mnp.float32)
+  y_train = Tensor(y_train, mnp.int32)
+  X_val = Tensor(X_val, mnp.float32)
+  y_val = Tensor(y_val, mnp.int32)
+  X_test = Tensor(X_test, mnp.float32)
+  
+  # 定义KNN算法
+  class KNN:
+      def __init__(self, k=3):
+          self.k = k
+      
+      def fit(self, X, y):
+          self.X_train = X
+          self.y_train = y
+      
+      def predict(self, X):
+          distances = self.compute_distances(X)
+          return self.predict_labels(distances)
+      
+      def compute_distances(self, X):
+          num_test = X.shape[0]
+          num_train = self.X_train.shape[0]
+          dists = mnp.zeros((num_test, num_train))
+          for i in range(num_test):
+              dists[i, :] = mnp.sqrt(mnp.sum((self.X_train - X[i, :])**2, axis=1))
+          return dists
+      
+      def predict_labels(self, dists):
+          num_test = dists.shape[0]
+          y_pred = mnp.zeros(num_test, dtype=mnp.int32)
+          for i in range(num_test):
+              closest_y = []
+              sorted_indices = ops.Sort(axis=0)(dists[i, :])[1]
+              closest_y = self.y_train[sorted_indices[:self.k]]
+              y_pred[i] = mnp.bincount(closest_y).argmax()
+          return y_pred
+  
+  # 创建KNN实例并训练
+  knn = KNN(k=3)
+  knn.fit(X_train, y_train)
+  
+  # 在验证集上进行预测
+  y_val_pred = knn.predict(X_val)
+  accuracy_val = mnp.mean((y_val_pred == y_val).astype(mnp.float32))
+  print("Validation Accuracy:", accuracy_val.asnumpy())
+  
+  # 在测试集上进行预测
+  y_test_pred = knn.predict(X_test)
+  print("Test Predictions:", y_test_pred.asnumpy())
+  
+  # 将预测结果保存到CSV文件
+  df_predictions = pd.DataFrame(y_test_pred.asnumpy(), columns=['label'])
+  df_predictions.to_csv('task3_test_prediction.csv', index=False)  
 \end{lstlisting}
 
 % 实验二
@@ -559,33 +899,33 @@ KNN的改进：
   \caption{朴素贝叶斯分类器}
   \label{Naive Bayes Classifier}
   \begin{algorithmic}[1]
-  \State \textbf{初始化:}
-  \State 定义类别列表 $classes$
-  \State 定义类别先验概率 $class\_priors$
-  \State 定义特征概率 $feature\_probs$
-  
-  \Procedure{fit}{X, y}
-      \State 获取唯一类别 $classes = \text{np.unique}(y)$
-      \For{每个类别 $cls$ in $classes$}
-          \State 获取属于类别 $cls$ 的样本 $X_{cls}$
-          \State 计算先验概率:
-          \[P(cls) = \frac{|X_{cls}|}{|X|}\]
-          \State 计算特征条件概率:
-          \[P(x_i | cls) = \frac{\sum X_{cls,i} + 1}{|X_{cls}| + 2}\]
-      \EndFor
-  \EndProcedure
-  \Procedure{predict}{X}
-      \For{每个样本 $x$ in X}
-          \For{每个类别 $cls$ in $classes$}
-              \State 计算后验概率:
-              \[\log P(cls | x) = \log P(cls) + \sum (\log P(x_i | cls) \times x_i + \log (1 - P(x_i | cls)) \times (1 - x_i))\]
-          \EndFor
-          \State 选择最大后验概率对应的类别
-      \EndFor
-  \EndProcedure
+    \State \textbf{初始化:}
+    \State 定义类别列表 $classes$
+    \State 定义类别先验概率 $class\_priors$
+    \State 定义特征概率 $feature\_probs$
+
+    \Procedure{fit}{X, y}
+    \State 获取唯一类别 $classes = \text{np.unique}(y)$
+    \For{每个类别 $cls$ in $classes$}
+    \State 获取属于类别 $cls$ 的样本 $X_{cls}$
+    \State 计算先验概率:
+    \[P(cls) = \frac{|X_{cls}|}{|X|}\]
+    \State 计算特征条件概率:
+    \[P(x_i | cls) = \frac{\sum X_{cls,i} + 1}{|X_{cls}| + 2}\]
+    \EndFor
+    \EndProcedure
+    \Procedure{predict}{X}
+    \For{每个样本 $x$ in X}
+    \For{每个类别 $cls$ in $classes$}
+    \State 计算后验概率:
+    \[\log P(cls | x) = \log P(cls) + \sum (\log P(x_i | cls) \times x_i + \log (1 - P(x_i | cls)) \times (1 - x_i))\]
+    \EndFor
+    \State 选择最大后验概率对应的类别
+    \EndFor
+    \EndProcedure
   \end{algorithmic}
 \end{algorithm}
-  
+
 \subsection{实验结果与分析}
 \subsubsection{手动实现朴素贝叶斯算法}
 利用课程所提供的MNIST数据集，我们手动实现了朴素贝叶斯算法，并在测试集上进行了分类。可以看出实验的准确率为\textbf{84.27\%}。
@@ -789,6 +1129,106 @@ KNN的改进：
       plt.imshow(X_test[i].reshape(28, 28), cmap='gray')
       plt.title(f'Predicted: {predictions[i]}, Actual: {y_test[i]}')
       plt.show()
+  
+\end{lstlisting}
+\subsubsection{naive\_bayes\_mindspore.ipynb(TBD)}
+\begin{lstlisting}[language=Python]
+  import numpy as np
+  import struct
+  import gzip
+  import matplotlib.pyplot as plt
+  import mindspore
+  from mindspore import Tensor
+  from mindspore.dataset import vision
+  
+  def read_images(file_path):
+      with gzip.open(file_path, 'rb') as f:
+          magic, num_images = struct.unpack(">II", f.read(8))
+          num_rows, num_cols = struct.unpack(">II", f.read(8))
+          print(f"Magic number: {magic}, Number of images: {num_images}, Rows: {num_rows}, Columns: {num_cols}")
+          images = np.frombuffer(f.read(), dtype=np.uint8).reshape(num_images, num_rows, num_cols)
+          return images
+  
+  def read_labels(file_path):
+      with gzip.open(file_path, 'rb') as f:
+          magic, num_labels = struct.unpack(">II", f.read(8))
+          print(f"Magic number: {magic}, Number of labels: {num_labels}")
+          labels = np.frombuffer(f.read(), dtype=np.uint8)
+          return labels
+  
+  train_images_path = 'data/train-images-idx3-ubyte.gz'
+  train_labels_path = 'data/train-labels-idx1-ubyte.gz'
+  test_images_path = 'data/t10k-images-idx3-ubyte.gz'
+  test_labels_path = 'data/t10k-labels-idx1-ubyte.gz'
+  
+  X_train = read_images(train_images_path)
+  y_train = read_labels(train_labels_path)
+  X_test = read_images(test_images_path)
+  y_test = read_labels(test_labels_path)
+  
+  print(f"Training data shape: {X_train.shape}")
+  print(f"Training labels shape: {y_train.shape}")
+  print(f"Test data shape: {X_test.shape}")
+  print(f"Test labels shape: {y_test.shape}")
+  
+  X_train = X_train / 255.0
+  X_test = X_test / 255.0
+  
+  X_train = (X_train > 0.5).astype(int)
+  X_test = (X_test > 0.5).astype(int)
+  
+  X_train = X_train.reshape(X_train.shape[0], -1)
+  X_test = X_test.reshape(X_test.shape[0], -1)
+  
+  class NaiveBayes:
+      def __init__(self):
+          self.classes = None
+          self.class_priors = {}
+          self.feature_probs = {}
+  
+      def fit(self, X, y):
+          self.classes = np.unique(y)
+          n_samples, n_features = X.shape
+  
+          for cls in self.classes:
+              X_cls = X[y == cls]
+              self.class_priors[cls] = X_cls.shape[0] / n_samples
+              self.feature_probs[cls] = (X_cls.sum(axis=0) + 1) / (X_cls.shape[0] + 2)
+  
+      def predict(self, X):
+          posteriors = []
+          for x in X:
+              posterior_probs = {}
+              for cls in self.classes:
+                  prior = np.log(self.class_priors[cls])
+                  conditional = np.sum(np.log(self.feature_probs[cls]) * x + np.log(1 - self.feature_probs[cls]) * (1 - x))
+                  posterior_probs[cls] = prior + conditional
+              posteriors.append(max(posterior_probs, key=posterior_probs.get))
+          return np.array(posteriors)
+  
+  nb = NaiveBayes()
+  
+  nb.fit(X_train, y_train)
+  
+  y_pred = nb.predict(X_test)
+  accuracy = np.mean(y_pred == y_test)
+  print(f"Accuracy: {accuracy:.4f}")
+  
+  import random
+  
+  indices = random.sample(range(X_test.shape[0]), 10)
+  images = X_test[indices].reshape(-1, 28, 28)
+  true_labels = y_test[indices]
+  pred_labels = y_pred[indices]
+  
+  plt.figure(figsize=(10, 10))
+  for i in range(10):
+      plt.subplot(5, 5, i + 1)
+      plt.imshow(images[i], cmap='gray')
+      plt.title(f"True: {true_labels[i]}\nPred: {pred_labels[i]}")
+      plt.axis('off')
+  plt.tight_layout()
+  plt.show()
   
 \end{lstlisting}
 
@@ -1405,6 +1845,198 @@ BP神经网络的数学模型如图~\ref{fig:fcnn_structure} 所示。
   # 计算并绘制混淆矩阵
   cm = compute_confusion_matrix(y_test, y_pred, len(cifar10_labels))
   plot_confusion_matrix(cm, classes=cifar10_labels)
+  
+\end{lstlisting}
+\subsubsection{bp\_mindspore.ipynb}
+\begin{lstlisting}[language=Python]
+  import os
+  import pickle
+  import numpy as np
+  import mindspore
+  from mindspore import nn
+  from mindspore import dataset as ds
+  from mindspore.dataset import vision, transforms
+  import matplotlib.pyplot as plt
+  
+  path = './cifar-10-batches-py'
+  
+  def load_cifar10_batch(file):
+      with open(file, 'rb') as fo:
+          dict = pickle.load(fo, encoding='bytes')
+      data = dict[b'data']
+      labels = dict[b'labels']
+      data = data.reshape(len(data), 3, 32, 32).transpose(0, 2, 3, 1)
+      return data, labels
+  
+  def load_cifar10(path):
+      x_train = []
+      y_train = []
+      for i in range(1, 6):
+          data, labels = load_cifar10_batch(os.path.join(path, f'data_batch_{i}'))
+          x_train.append(data)
+          y_train.append(labels)
+      x_train = np.concatenate(x_train)
+      y_train = np.concatenate(y_train)
+      
+      x_test, y_test = load_cifar10_batch(os.path.join(path, 'test_batch'))
+      
+      return (x_train, y_train), (x_test, y_test)
+  
+  def create_dataset(data, labels, batch_size, shuffle=True):
+      def generator():
+          for i in range(len(data)):
+              yield data[i], labels[i]
+  
+      dataset = ds.GeneratorDataset(generator, ["image", "label"], shuffle=shuffle)
+      image_transforms = [
+          vision.Rescale(1.0 / 255.0, 0),
+          vision.Normalize(mean=(0.4914, 0.4822, 0.4465), std=(0.2023, 0.1994, 0.2010)),
+          vision.HWC2CHW()
+      ]
+      label_transform = transforms.TypeCast(mindspore.int32)
+      
+      dataset = dataset.map(operations=image_transforms, input_columns='image')
+      dataset = dataset.map(operations=label_transform, input_columns='label')
+      dataset = dataset.batch(batch_size)
+      
+      return dataset
+  
+  (train_images, train_labels), (test_images, test_labels) = load_cifar10(path)
+  train_dataset = create_dataset(train_images, train_labels, batch_size=64)
+  test_dataset = create_dataset(test_images, test_labels, batch_size=64)
+  
+  class Network(nn.Cell):
+      def __init__(self):
+          super().__init__()
+          self.flatten = nn.Flatten()
+          self.dense_relu_sequential = nn.SequentialCell(
+              nn.Dense(32*32*3, 512),
+              nn.ReLU(),
+              nn.Dense(512, 512),
+              nn.ReLU(),
+              nn.Dense(512, 10)
+          )
+  
+      def construct(self, x):
+          x = self.flatten(x)
+          logits = self.dense_relu_sequential(x)
+          return logits
+  
+  model = Network()
+  epochs = 10
+  batch_size = 64
+  learning_rate = 1e-2
+  loss_fn = nn.CrossEntropyLoss()
+  optimizer = nn.SGD(model.trainable_params(), learning_rate=learning_rate)
+  
+  # Define forward function
+  def forward_fn(data, label):
+      logits = model(data)
+      loss = loss_fn(logits, label)
+      return loss, logits
+  
+  # Get gradient function
+  grad_fn = mindspore.value_and_grad(forward_fn, None, optimizer.parameters, has_aux=True)
+  
+  # Define function of one-step training
+  def train_step(data, label):
+      (loss, _), grads = grad_fn(data, label)
+      optimizer(grads)
+      return loss
+  
+  def train_loop(model, dataset):
+      size = dataset.get_dataset_size()
+      model.set_train()
+      total_loss = 0
+      for batch, (data, label) in enumerate(dataset.create_tuple_iterator()):
+          loss = train_step(data, label)
+          total_loss += loss.asnumpy()
+      
+      return total_loss / size
+  
+  def test_loop(model, dataset, loss_fn):
+      num_batches = dataset.get_dataset_size()
+      model.set_train(False)
+      total, test_loss, correct = 0, 0, 0
+      all_preds = []
+      all_labels = []
+      for data, label in dataset.create_tuple_iterator():
+          pred = model(data)
+          total += len(data)
+          test_loss += loss_fn(pred, label).asnumpy()
+          correct += (pred.argmax(1) == label).asnumpy().sum()
+          all_preds.extend(pred.argmax(1).asnumpy())
+          all_labels.extend(label.asnumpy())
+      test_loss /= num_batches
+      correct /= total
+      return test_loss, correct, all_preds, all_labels
+  
+  def compute_confusion_matrix(y_true, y_pred, num_classes):
+      conf_matrix = np.zeros((num_classes, num_classes), dtype=np.int32)
+      for true, pred in zip(y_true, y_pred):
+          conf_matrix[true, pred] += 1
+      return conf_matrix
+  
+  train_losses = []
+  test_losses = []
+  test_accuracies = []
+  all_preds = []
+  all_labels = []
+  
+  for t in range(epochs):
+      train_loss = train_loop(model, train_dataset)
+      test_loss, test_accuracy, epoch_preds, epoch_labels = test_loop(model, test_dataset, loss_fn)
+      train_losses.append(train_loss)
+      test_losses.append(test_loss)
+      test_accuracies.append(test_accuracy)
+      all_preds.extend(epoch_preds)
+      all_labels.extend(epoch_labels)
+      print(f"Epoch [{t}], train_loss: {train_loss:.4f}, val_loss: {test_loss:.4f}, val_acc: {test_accuracy:.4f}")
+  print("Done!")
+  
+  # Plotting
+  epochs_range = range(1, epochs + 1)
+  plt.figure(figsize=(12, 6))
+  
+  plt.subplot(1, 2, 1)
+  plt.plot(epochs_range, train_losses, label='Train Loss')
+  plt.plot(epochs_range, test_losses, label='Test Loss')
+  plt.xlabel('Epoch')
+  plt.ylabel('Loss')
+  plt.title('Training and Testing Loss')
+  plt.legend()
+  
+  plt.subplot(1, 2, 2)
+  plt.plot(epochs_range, [acc * 100 for acc in test_accuracies], label='Test Accuracy')
+  plt.xlabel('Epoch')
+  plt.ylabel('Accuracy (%)')
+  plt.title('Test Accuracy')
+  plt.legend()
+  
+  plt.show()
+  
+  # Confusion Matrix
+  cifar10_labels = ['airplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']
+  conf_matrix = compute_confusion_matrix(all_labels[:10000], all_preds[:10000], 10)
+  plt.figure(figsize=(10, 8))
+  plt.imshow(conf_matrix, interpolation='nearest', cmap=plt.cm.Blues)
+  plt.title('Confusion Matrix')
+  plt.colorbar()
+  tick_marks = np.arange(10)
+  plt.xticks(tick_marks, cifar10_labels, rotation=45)
+  plt.yticks(tick_marks, cifar10_labels)
+  plt.xlabel('Predicted Label')
+  plt.ylabel('True Label')
+  
+  # Add text annotations to the confusion matrix
+  thresh = conf_matrix.max() / 2
+  for i in range(conf_matrix.shape[0]):
+      for j in range(conf_matrix.shape[1]):
+          plt.text(j, i, format(conf_matrix[i, j], 'd'),
+                   horizontalalignment='center',
+                   color='white' if conf_matrix[i, j] > thresh else 'black')
+  
+  plt.show()
   
 \end{lstlisting}
 
