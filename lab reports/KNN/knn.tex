@@ -385,9 +385,18 @@ KNN算法的数学模型如下：
 \begin{enumerate}
   \item 对于基于欧氏距离的KNN算法，当$k=3$时，测试集的准确率为93.33\%；
   \item 对于基于马氏距离的KNN算法，当$k=3$时，测试集的准确率为93.33\%；
-  \item 将$k$从1到50遍历，分析出基于欧氏距离的KNN算法对Iris数据集进行分类的准确率随$k$的变化情况，如图~\ref{fig:accuracy} 所示。
+  \item 将$k$从1到30遍历，分析出基于欧氏距离的KNN算法对Iris数据集进行分类的准确率随$k$的变化情况，如图~\ref{fig:accuracy} 所示。
+  \item 进一步扩大$k$的取值范围，将$k$从1遍历到100，分析出基于欧氏距离的KNN算法对Iris数据集进行分类的准确率随$k$的变化情况，
+        如图~\ref{fig:accuracy2} 所示。
 \end{enumerate}
-显然，基于欧式距离的最佳$k$值为5或27或29，此时的准确率最高，为100\%，说明$k=5$，$k=27$，$k=29$时能完全正确的将Iris数据集中三类鸢尾花进行分类。
+从上述实验结果可以分析出，基于欧式距离的最佳$k$值为5或27或29，此时的准确率最高，为100\%，
+说明$k=5$，$k=27$，$k=29$时能完全正确的将Iris数据集中三类鸢尾花进行分类。
+而图~\ref{fig:accuracy} 和图~\ref{fig:accuracy2} 中的准确率曲线同时也说明了KNN算法中的$k$值选择对分类准确率的影响：
+\begin{enumerate}
+  \item 当$k$值较小时，模型容易受到噪声的影响，导致过拟合；
+  \item 当$k$值较大时，模型容易受到样本不均衡的影响，导致欠拟合。
+\end{enumerate}
+而$k$值过大就相当于是对所有样本进行投票，根据本实验模型（基于欧氏距离）所得的结果发现，$k \geq 93$时，准确率降到最低的26.67\%。
 
 \begin{figure}[htbp]
   \centering
@@ -395,6 +404,14 @@ KNN算法的数学模型如下：
   \caption{分类准确率随$k$的变化情况}
   \label{fig:accuracy}
 \end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[scale=0.28]{figures/knn/accuracy2.png}
+  \caption{分类准确率随$k$的变化情况}
+  \label{fig:accuracy2}
+\end{figure}
+
 
 \subsubsection{手动实现算法的评价}
 传统的KNN方法的不足之处主要包括：
