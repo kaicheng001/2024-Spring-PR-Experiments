@@ -1,4 +1,5 @@
 \documentclass[12pt]{article}
+\usepackage[T1]{fontenc}
 \usepackage[UTF8]{ctex}
 \usepackage{xeCJK}
 \usepackage[margin=1in]{geometry}
@@ -399,7 +400,9 @@ KNN算法的数学模型如下：
 而$k$值过大就相当于是对所有样本进行投票，根据本实验模型（基于欧氏距离）所得的结果发现，$k \geq 93$时，准确率降到最低的26.67\%。
 
 同时，通过图~\ref{fig:accuracy} 和图~\ref{fig:accuracy2}，我们还发现，准确率并不是$k$变化就随着变化的，而是几近分段变化的，
-这从侧面说明了本实验Iris数据集的离散属性，即不同类别的鸢尾花在特征空间中的分布是不均匀的。
+这从侧面说明了本实验Iris数据集的离散属性，即不同类别的鸢尾花在特征空间中的分布是不均匀的，
+同时也说明了Iris数据集三种鸢尾花的部分属性具有聚集性，
+这也与图~\ref{fig:pairplot}中pairplot的小图中三种鸢尾花的属性相分离契合。
 
 \begin{figure}[htbp]
   \centering
@@ -476,6 +479,14 @@ KNN的改进：
 
 
 \subsection{MindSpore 学习使用心得体会}
+本实验中使用了mindspore内置的numpy，这个库与常规的numpy有一定区别，但是使用起来也是比较方便的。
+
+在实验过程中，原本直接使用numpy在加载数据部分是将数据转换成numpy数组，而mindspore.numpy则是转换成mindspore.Tensor，
+此外我还注意到，mindspore的数据加载和处理部分与numpy有一定的区别，需要注意数据类型的转换，如asnumpy()，
+在操作过程中注意数据转换成int32类型等。
+
+% 此外，值得注意的一个细节是，直接使用numpy获得的准确率的精度要高于mindspore.numpy的，这可能是因为mindspore.numpy的精度较低。
+
 
 \subsection{代码附录（数据加载可视化展示部分，具体见knn.ipynb文件）}
 \subsubsection{knn.ipynb}
@@ -1051,6 +1062,8 @@ KNN的改进：
 
 
 \subsection{MindSpore 学习使用心得体会}
+
+
 
 \subsection{代码附录}
 \subsubsection{naive\_bayes.ipynb}
@@ -1647,9 +1660,45 @@ BP神经网络的数学模型如图~\ref{fig:fcnn_structure} 所示。
   \caption{Confusion Matrix on CIFAR-10}
   \label{fig:confusion_matrix}
 \end{figure}
+\subsubsection{手动实现BP神经网络算法和基于Mindspore实现神经网络算法的对比}
+\begin{enumerate}
+  \item \textbf{准确率对比}：基于Mindspore实现的神经网络在CIFAR-10数据集上的准确率约为\textbf{53\%}，
+  高于手动实现的算法的准确率\textbf{50\%}。
+  \item \textbf{收敛速度对比}：基于Mindspore实现的神经网络在CIFAR-10数据集上的收敛速度较快，
+  仅需\textbf{10}个epoch即可收敛，而手动实现的算法需要\textbf{100}个epoch才能收敛。
+  \item \textbf{模型复杂度对比}：基于Mindspore实现的神经网络使用了多隐藏层的神经网络结构，模型复杂度更高，
+  能够更好地捕捉数据集的复杂特征。
+  \item \textbf{优化算法对比}：基于Mindspore实现的神经网络使用了SGD、Adam等高级的优化算法，收敛速度更快，性能更好。
+  \item \textbf{超参数调优对比}：基于Mindspore实现的神经网络中的超参数经过充分调优，模型性能更佳。
+\end{enumerate}
 
+%下面需要分析出现上面的差异可能的原因
 
 \subsection{MindSpore 学习使用心得体会}
+使用华为MindSpore平台进行深度学习开发与常规的手动实现（如直接使用NumPy等基础库编写神经网络及其训练流程）相比，
+带来了若干明显的优势和区别。以下是基于MindSpore平台进行深度学习开发的一些心得体会，
+特别是在实现与训练BP神经网络对CIFAR-10数据集进行分类的任务上的体会：
+\begin{enumerate}
+  \item \textbf{数据加载优势}：MindSpore的dataset模块提供了丰富的数据操作接口，可以方便地从各种来源加载数据。
+        使用GeneratorDataset创建自定义数据生成器更为简单，能够快速接入数据流。与手动实现数据加载相比，该方法更高效、更灵活。
+  \item \textbf{数据预处理和增强}：通过map操作和MindSpore内置的vision模块，能够在数据流管道中轻松加入图像的预处理和增强步骤，
+        如归一化、标准化、变形等。这些操作内部进行了优化，执行速度快，并且调用接口简单明了，易于理解和操作。
+  \item \textbf{训练和BP计算过程区别}：在MindSpore中使用nn.Cell来定义网络模型更为简洁，在construct方法中定义数据通过网络的流动。
+        这使得模型的构造直观而易于管理，与手动实现（如使用NumPy自行编写前向传播和反向传播）相比，大大降低了开发难度。
+  \item \textbf{自动微分}：MindSpore的自动微分机制（通过value\_and\_grad函数）使得计算损失函数对于参数的梯度变得异常简单。
+        开发者无需手动推导和编程实现参数的梯度计算，框架会自动完成，这一点是传统手动实现所不能比拟的。
+  \item \textbf{优化器和参数更新}：在MindSpore中，优化器已被封装成了内置的类，如nn.SGD，并且可以直接与模型参数关联起来，
+        调用优化器的语法简单，使得在训练循环中参数更新的实现非常高效并且易于理解。
+
+\end{enumerate}
+
+\textbf{总结}：使用基于MindSpore的深度学习开发相比于传统的手动实现方式，
+在数据加载、预处理、模型构建和训练等多个方面都具有明显的优势。一方面，
+MindSpore的丰富数据接口和功能强大的数据预处理功能简化了数据准备工作。另一方面，
+通过自动微分及优化器提供的高层封装，极大地减少了梯度计算和参数更新的编程工作量，提升了开发效率。
+更不用说，MindSpore平台针对华为Ascend处理器的性能优化，对于训练效率可能带来额外的提升。
+
+
 
 \subsection{代码附录}
 

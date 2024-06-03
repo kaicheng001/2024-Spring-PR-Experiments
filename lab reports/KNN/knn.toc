@@ -12,10 +12,10 @@
 \contentsline {subsubsection}{\numberline {1.5.1}数据集的部分可视化分析}{9}{subsubsection.1.5.1}%
 \contentsline {subsubsection}{\numberline {1.5.2}实验结果的分析}{9}{subsubsection.1.5.2}%
 \contentsline {subsubsection}{\numberline {1.5.3}手动实现算法的评价}{11}{subsubsection.1.5.3}%
-\contentsline {subsection}{\numberline {1.6}MindSpore 学习使用心得体会}{15}{subsection.1.6}%
+\contentsline {subsection}{\numberline {1.6}MindSpore 学习使用心得体会}{14}{subsection.1.6}%
 \contentsline {subsection}{\numberline {1.7}代码附录（数据加载可视化展示部分，具体见knn.ipynb文件）}{15}{subsection.1.7}%
 \contentsline {subsubsection}{\numberline {1.7.1}knn.ipynb}{15}{subsubsection.1.7.1}%
-\contentsline {subsubsection}{\numberline {1.7.2}knn\_mindspore.ipynb}{21}{subsubsection.1.7.2}%
+\contentsline {subsubsection}{\numberline {1.7.2}knn\_mindspore.ipynb}{22}{subsubsection.1.7.2}%
 \contentsline {section}{\numberline {2}\centering 实验二 Na\"ive Bayes Classification}{24}{section.2}%
 \contentsline {subsection}{\numberline {2.1}问题描述}{24}{subsection.2.1}%
 \contentsline {subsubsection}{\numberline {2.1.1}概述}{24}{subsubsection.2.1.1}%
@@ -47,11 +47,12 @@
 \contentsline {subsubsection}{\numberline {3.5.1}实验结果展示}{40}{subsubsection.3.5.1}%
 \contentsline {subsubsection}{\numberline {3.5.2}进一步探究}{40}{subsubsection.3.5.2}%
 \contentsline {subsubsection}{\numberline {3.5.3}手动实现算法的评价}{42}{subsubsection.3.5.3}%
-\contentsline {subsection}{\numberline {3.6}MindSpore 学习使用心得体会}{42}{subsection.3.6}%
-\contentsline {subsection}{\numberline {3.7}代码附录}{42}{subsection.3.7}%
-\contentsline {subsubsection}{\numberline {3.7.1}cifar-10-scratch.ipynb}{42}{subsubsection.3.7.1}%
-\contentsline {subsubsection}{\numberline {3.7.2}bp\_mindspore.ipynb}{50}{subsubsection.3.7.2}%
-\contentsline {section}{\numberline {4}\centering 心得体会}{56}{section.4}%
-\contentsline {subsection}{\numberline {4.1}关于上课的体会}{56}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}关于实验的体会}{56}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}总的体会}{56}{subsection.4.3}%
+\contentsline {subsubsection}{\numberline {3.5.4}手动实现BP神经网络算法和基于Mindspore实现神经网络算法的对比}{42}{subsubsection.3.5.4}%
+\contentsline {subsection}{\numberline {3.6}MindSpore 学习使用心得体会}{45}{subsection.3.6}%
+\contentsline {subsection}{\numberline {3.7}代码附录}{46}{subsection.3.7}%
+\contentsline {subsubsection}{\numberline {3.7.1}cifar-10-scratch.ipynb}{46}{subsubsection.3.7.1}%
+\contentsline {subsubsection}{\numberline {3.7.2}bp\_mindspore.ipynb}{51}{subsubsection.3.7.2}%
+\contentsline {section}{\numberline {4}\centering 心得体会}{57}{section.4}%
+\contentsline {subsection}{\numberline {4.1}关于上课的体会}{57}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}关于实验的体会}{57}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}总的体会}{57}{subsection.4.3}%
