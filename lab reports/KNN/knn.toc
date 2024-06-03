@@ -53,6 +53,3 @@
 \contentsline {subsubsection}{\numberline {3.7.1}cifar-10-scratch.ipynb}{46}{subsubsection.3.7.1}%
 \contentsline {subsubsection}{\numberline {3.7.2}bp\_mindspore.ipynb}{51}{subsubsection.3.7.2}%
 \contentsline {section}{\numberline {4}\centering 心得体会}{57}{section.4}%
-\contentsline {subsection}{\numberline {4.1}关于上课的体会}{57}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}关于实验的体会}{57}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}总的体会}{57}{subsection.4.3}%

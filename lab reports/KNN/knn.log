@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2024.2.29)  3 JUN 2024 21:45
+This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2024.2.29)  3 JUN 2024 22:10
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1276,7 +1276,12 @@ Overfull \vbox (9.00882pt too high) has occurred while \output is active []
  [28]
 File: figures/naive/manual_8427.png Graphic file (type bmp)
 <figures/naive/manual_8427.png>
- [29] [30] [31] [32] [33] [34] [35]
+
+Overfull \hbox (5.6268pt too wide) in paragraph at lines 1057--1059
+[]\TU/SimSun.ttc(0)/m/n/12 实 验 结 果 表 明，|  手 动 实 现 的 朴 素 贝 叶 斯 算 法 在 \TU/TimesNewRoman(0)/m/n/12 MNIST \TU/SimSun.ttc(0)/m/n/12 数 据 集 上 的 分 类 准 确 率 为 \TU/TimesNewRoman(0)/b/n/12 84.27%\TU/SimSun.ttc(0)/m/n/12 。|
+ []
+
+[29] [30] [31] [32] [33] [34] [35]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `\<let>-command' on input line 1270.
@@ -1404,13 +1409,13 @@ L3 programming layer <2022/08/05>
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 Package rerunfilecheck Info: File `knn.out' has not changed.
-(rerunfilecheck)             Checksum: F4521C85A76FBE1A59441A3BE20A3FE8;7565.
+(rerunfilecheck)             Checksum: 57D630E7721057696D85B11B88B8FBAF;7247.
  ) 
 Here is how much of TeX's memory you used:
- 33672 strings out of 474794
- 716671 string characters out of 5758529
+ 33671 strings out of 474794
+ 716660 string characters out of 5758529
  2330842 words of memory out of 5000000
- 55178 multiletter control sequences out of 15000+600000
+ 55177 multiletter control sequences out of 15000+600000
  570149 words of font info for 126 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  103i,15n,117p,456b,2012s stack positions out of 10000i,1000n,20000p,200000b,200000s
