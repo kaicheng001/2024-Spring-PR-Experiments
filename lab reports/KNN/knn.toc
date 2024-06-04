@@ -49,7 +49,7 @@
 \contentsline {subsubsection}{\numberline {3.5.3}手动实现算法的评价}{42}{subsubsection.3.5.3}%
 \contentsline {subsubsection}{\numberline {3.5.4}手动实现BP神经网络算法和基于Mindspore实现神经网络算法的对比}{42}{subsubsection.3.5.4}%
 \contentsline {subsection}{\numberline {3.6}MindSpore 学习使用心得体会}{45}{subsection.3.6}%
-\contentsline {subsection}{\numberline {3.7}代码附录}{46}{subsection.3.7}%
-\contentsline {subsubsection}{\numberline {3.7.1}cifar-10-scratch.ipynb}{46}{subsubsection.3.7.1}%
-\contentsline {subsubsection}{\numberline {3.7.2}bp\_mindspore.ipynb}{51}{subsubsection.3.7.2}%
-\contentsline {section}{\numberline {4}\centering 心得体会}{57}{section.4}%
+\contentsline {subsection}{\numberline {3.7}代码附录}{47}{subsection.3.7}%
+\contentsline {subsubsection}{\numberline {3.7.1}cifar-10-scratch.ipynb}{47}{subsubsection.3.7.1}%
+\contentsline {subsubsection}{\numberline {3.7.2}bp\_mindspore.ipynb}{52}{subsubsection.3.7.2}%
+\contentsline {section}{\numberline {4}\centering 心得体会}{58}{section.4}%

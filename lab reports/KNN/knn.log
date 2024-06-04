@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2024.2.29)  3 JUN 2024 22:10
+This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2024.2.29)  4 JUN 2024 09:07
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1342,64 +1342,66 @@ File: figures/nn/loss_curve.png Graphic file (type bmp)
 File: figures/nn/confusion_matrix.png Graphic file (type bmp)
 <figures/nn/confusion_matrix.png>
 
-Overfull \hbox (16.62187pt too wide) in paragraph at lines 1659--1660
+Overfull \hbox (16.62187pt too wide) in paragraph at lines 1661--1662
  [][] 
  []
 
-[42] [43] [44] [45] [46] [47] [48] [49] [50] [51] [52] [53] [54] [55] [56]
+File: figures/nn/random_result.png Graphic file (type bmp)
+<figures/nn/random_result.png>
+[42] [43] [44] [45] [46] [47] [48] [49] [50] [51] [52] [53] [54] [55] [56] [57]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<let>-command' on input line 2113.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\\' on input line 2113.
+(hyperref)                removing `\<let>-command' on input line 2131.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\@centercr' on input line 2113.
+(hyperref)                removing `\\' on input line 2131.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\rightskip' on input line 2113.
+(hyperref)                removing `\@centercr' on input line 2131.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\@flushglue' on input line 2113.
+(hyperref)                removing `\rightskip' on input line 2131.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\leftskip' on input line 2113.
+(hyperref)                removing `\@flushglue' on input line 2131.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\@flushglue' on input line 2113.
+(hyperref)                removing `\leftskip' on input line 2131.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\finalhyphendemerits' on input line 2113.
+(hyperref)                removing `\@flushglue' on input line 2131.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\z@' on input line 2113.
+(hyperref)                removing `\finalhyphendemerits' on input line 2131.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\parindent' on input line 2113.
+(hyperref)                removing `\z@' on input line 2131.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\z@' on input line 2113.
+(hyperref)                removing `\parindent' on input line 2131.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\parfillskip' on input line 2113.
+(hyperref)                removing `\z@' on input line 2131.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\z@skip' on input line 2113.
+(hyperref)                removing `\parfillskip' on input line 2131.
 
-[57] (./knn.aux)
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\z@skip' on input line 2131.
+
+[58] (./knn.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2022/08/05>
@@ -1408,16 +1410,19 @@ L3 programming layer <2022/08/05>
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
 Package rerunfilecheck Info: File `knn.out' has not changed.
 (rerunfilecheck)             Checksum: 57D630E7721057696D85B11B88B8FBAF;7247.
  ) 
 Here is how much of TeX's memory you used:
- 33671 strings out of 474794
- 716660 string characters out of 5758529
+ 33681 strings out of 474794
+ 716968 string characters out of 5758529
  2330842 words of memory out of 5000000
- 55177 multiletter control sequences out of 15000+600000
+ 55186 multiletter control sequences out of 15000+600000
  570149 words of font info for 126 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  103i,15n,117p,456b,2012s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on knn.pdf (58 pages).
+Output written on knn.pdf (59 pages).
