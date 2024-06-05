@@ -402,7 +402,7 @@ KNN算法的数学模型如下：
 同时，通过图~\ref{fig:accuracy} 和图~\ref{fig:accuracy2}，我们还发现，准确率并不是$k$变化就随着变化的，而是几近分段变化的，
 这从侧面说明了本实验Iris数据集的离散属性，即不同类别的鸢尾花在特征空间中的分布是不均匀的，
 同时也说明了Iris数据集三种鸢尾花的部分属性具有聚集性，
-这也与图~\ref{fig:pairplot}中pairplot的小图中三种鸢尾花的属性相分离契合。
+这也与图~\ref{fig:pairplot} 中pairplot的小图中三种鸢尾花的属性相分离契合。
 
 \begin{figure}[htbp]
   \centering
@@ -1087,6 +1087,7 @@ KNN的改进：
   import struct
   import gzip
   import matplotlib.pyplot as plt
+  
   def read_images(file_path):
       with gzip.open(file_path, 'rb') as f:
           # 读取文件头信息：魔数和图片数量
@@ -1123,6 +1124,7 @@ KNN的改进：
   print(f"Training labels shape: {y_train.shape}")
   print(f"Test data shape: {X_test.shape}")
   print(f"Test labels shape: {y_test.shape}")
+  
   # 将像素值归一化到[0, 1]范围
   X_train = X_train / 255.0
   X_test = X_test / 255.0
@@ -1134,49 +1136,61 @@ KNN的改进：
   # 将图像展开成一维向量
   X_train = X_train.reshape(X_train.shape[0], -1)
   X_test = X_test.reshape(X_test.shape[0], -1)
-  class OptimizedMultinomialNaiveBayes:
-      def __init__(self, alpha=1.0):
-          self.alpha = alpha  # 平滑参数
+  
+  class NaiveBayes:
+      def __init__(self):
           self.classes = None
-          self.class_count = None
-          self.feature_count = None
-          self.class_log_prior = None
-          self.feature_log_prob = None
+          self.class_priors = {}
+          self.feature_probs = {}
   
       def fit(self, X, y):
           self.classes = np.unique(y)
-          n_classes = len(self.classes)
-          n_features = X.shape[1]
-          self.class_count = np.zeros(n_classes)
-          self.feature_count = np.zeros((n_classes, n_features))
+          n_samples, n_features = X.shape
   
-          for idx, c in enumerate(self.classes):
-              X_c = X[y == c]
-              self.class_count[idx] = X_c.shape[0]
-              self.feature_count[idx, :] = np.sum(X_c, axis=0)
-  
-          self.class_log_prior = np.log(self.class_count / np.sum(self.class_count))
-          self.feature_log_prob = np.log((self.feature_count + self.alpha) / (self.class_count[:, None] + self.alpha * n_features))
+          for cls in self.classes:
+              X_cls = X[y == cls]
+              self.class_priors[cls] = X_cls.shape[0] / n_samples
+              self.feature_probs[cls] = (X_cls.sum(axis=0) + 1) / (X_cls.shape[0] + 2)
   
       def predict(self, X):
-          log_likelihood = X @ self.feature_log_prob.T
-          log_posterior = log_likelihood + self.class_log_prior
-          return self.classes[np.argmax(log_posterior, axis=1)]
-  # 实例化并训练优化后的多项式朴素贝叶斯分类器
-  omnb = OptimizedMultinomialNaiveBayes(alpha=1.0)
-  omnb.fit(X_train, y_train)
+          posteriors = []
+          for x in X:
+              posterior_probs = {}
+              for cls in self.classes:
+                  prior = np.log(self.class_priors[cls])
+                  conditional = np.sum(np.log(self.feature_probs[cls]) * x + np.log(1 - self.feature_probs[cls]) * (1 - x))
+                  posterior_probs[cls] = prior + conditional
+              posteriors.append(max(posterior_probs, key=posterior_probs.get))
+          return np.array(posteriors)
   
-  # 在测试集上进行预测
-  predictions = omnb.predict(X_test)
+  # 实例化朴素贝叶斯分类器
+  nb = NaiveBayes()
   
-  # 计算准确率
-  accuracy = np.mean(predictions == y_test)
-  print(f'Accuracy: {accuracy}')
-  # 可视化前几个预测结果
+  # 对数据进行训练
+  nb.fit(X_train, y_train)
+  
+  # 对测试数据进行预测
+  y_pred = nb.predict(X_test)
+  accuracy = np.mean(y_pred == y_test)
+  print(f"Accuracy: {accuracy:.4f}")
+  
+  # 可视化部分预测结果
+  import random
+  
+  # 随机选择10个测试样本
+  indices = random.sample(range(X_test.shape[0]), 10)
+  images = X_test[indices].reshape(-1, 28, 28)
+  true_labels = y_test[indices]
+  pred_labels = y_pred[indices]
+  
+  plt.figure(figsize=(10, 10))
   for i in range(10):
-      plt.imshow(X_test[i].reshape(28, 28), cmap='gray')
-      plt.title(f'Predicted: {predictions[i]}, Actual: {y_test[i]}')
-      plt.show()
+      plt.subplot(5, 5, i + 1)
+      plt.imshow(images[i], cmap='gray')
+      plt.title(f"True: {true_labels[i]}\nPred: {pred_labels[i]}")
+      plt.axis('off')
+  plt.tight_layout()
+  plt.show()
   
 \end{lstlisting}
 \subsubsection{naive\_bayes\_mindspore.ipynb}
@@ -2163,7 +2177,7 @@ MindSpore的丰富数据接口和功能强大的数据预处理功能简化了�
                    horizontalalignment='center',
                    color='white' if conf_matrix[i, j] > thresh else 'black')
   
-  plt.show()
+  plt.show()  
   
 \end{lstlisting}
 

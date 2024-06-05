@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2024.2.29)  5 JUN 2024 17:11
+This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2024.2.29)  5 JUN 2024 23:07
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1281,55 +1281,55 @@ Overfull \hbox (5.6268pt too wide) in paragraph at lines 1070--1072
 [29] [30] [31] [32] [33] [34] [35]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<let>-command' on input line 1310.
+(hyperref)                removing `\<let>-command' on input line 1324.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\\' on input line 1310.
+(hyperref)                removing `\\' on input line 1324.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\@centercr' on input line 1310.
+(hyperref)                removing `\@centercr' on input line 1324.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\rightskip' on input line 1310.
+(hyperref)                removing `\rightskip' on input line 1324.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\@flushglue' on input line 1310.
+(hyperref)                removing `\@flushglue' on input line 1324.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\leftskip' on input line 1310.
+(hyperref)                removing `\leftskip' on input line 1324.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\@flushglue' on input line 1310.
+(hyperref)                removing `\@flushglue' on input line 1324.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\finalhyphendemerits' on input line 1310.
+(hyperref)                removing `\finalhyphendemerits' on input line 1324.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\z@' on input line 1310.
+(hyperref)                removing `\z@' on input line 1324.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\parindent' on input line 1310.
+(hyperref)                removing `\parindent' on input line 1324.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\z@' on input line 1310.
+(hyperref)                removing `\z@' on input line 1324.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\parfillskip' on input line 1310.
+(hyperref)                removing `\parfillskip' on input line 1324.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\z@skip' on input line 1310.
+(hyperref)                removing `\z@skip' on input line 1324.
 
 [36] [37] [38] [39] [40] [41]
 File: figures/nn/accuracy_curve.png Graphic file (type bmp)
@@ -1339,7 +1339,7 @@ File: figures/nn/loss_curve.png Graphic file (type bmp)
 File: figures/nn/confusion_matrix.png Graphic file (type bmp)
 <figures/nn/confusion_matrix.png>
 
-Overfull \hbox (16.62187pt too wide) in paragraph at lines 1701--1702
+Overfull \hbox (16.62187pt too wide) in paragraph at lines 1715--1716
  [][] 
  []
 
@@ -1348,55 +1348,55 @@ File: figures/nn/random_result.png Graphic file (type bmp)
 [42] [43] [44] [45] [46] [47] [48] [49] [50] [51] [52] [53] [54] [55] [56] [57]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<let>-command' on input line 2171.
+(hyperref)                removing `\<let>-command' on input line 2185.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\\' on input line 2171.
+(hyperref)                removing `\\' on input line 2185.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\@centercr' on input line 2171.
+(hyperref)                removing `\@centercr' on input line 2185.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\rightskip' on input line 2171.
+(hyperref)                removing `\rightskip' on input line 2185.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\@flushglue' on input line 2171.
+(hyperref)                removing `\@flushglue' on input line 2185.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\leftskip' on input line 2171.
+(hyperref)                removing `\leftskip' on input line 2185.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\@flushglue' on input line 2171.
+(hyperref)                removing `\@flushglue' on input line 2185.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\finalhyphendemerits' on input line 2171.
+(hyperref)                removing `\finalhyphendemerits' on input line 2185.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\z@' on input line 2171.
+(hyperref)                removing `\z@' on input line 2185.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\parindent' on input line 2171.
+(hyperref)                removing `\parindent' on input line 2185.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\z@' on input line 2171.
+(hyperref)                removing `\z@' on input line 2185.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\parfillskip' on input line 2171.
+(hyperref)                removing `\parfillskip' on input line 2185.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\z@skip' on input line 2171.
+(hyperref)                removing `\z@skip' on input line 2185.
 
 [58] (./knn.aux)
  ***********
@@ -1407,17 +1407,14 @@ L3 programming layer <2022/08/05>
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
 Package rerunfilecheck Info: File `knn.out' has not changed.
 (rerunfilecheck)             Checksum: 63A2F7659C0E3B1679C8B6BD6172C3D5;7216.
  ) 
 Here is how much of TeX's memory you used:
- 33683 strings out of 474794
- 716994 string characters out of 5758529
+ 33671 strings out of 474794
+ 716811 string characters out of 5758529
  2330842 words of memory out of 5000000
- 55188 multiletter control sequences out of 15000+600000
+ 55176 multiletter control sequences out of 15000+600000
  570149 words of font info for 126 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  103i,15n,117p,456b,2012s stack positions out of 10000i,1000n,20000p,200000b,200000s
