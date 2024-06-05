@@ -1050,6 +1050,20 @@ KNN的改进：
 % \end{figure}
 
 \subsubsection{mindSpore实现朴素贝叶斯算法}
+我们使用了mindspore.numpy来代替原有的numpy实现了朴素贝叶斯算法。
+
+使用mindspore实现的朴素贝叶斯算法在MNIST数据集上的分类准确率为\textbf{84.27\%}。准确率和手动实现的朴素贝叶斯算法相同，
+说明mindspore实现的朴素贝叶斯算法是正确的。
+
+但是我发现，mindspore.numpy实现要比numpy花费的时间要长，这可能是因为：
+\begin{enumerate}
+  \item MindSpore 的计算图模式（GRAPH\_MODE）可以优化性能，但需要一些额外的编译时间。相比之下，使用 NumPy 的代码是动态执行的，没有编译阶段。
+  \item MindSpore 中的 Tensor 操作在某些情况下可能比 NumPy 更慢，特别是在小规模数据和简单计算时。因为 MindSpore 的设计初衷是用于大规模的深度学习任务，优化了大规模数据的处理，而不是小规模的简单任务。
+  \item 代码中有很多从 NumPy 到 mindspore.Tensor 的类型转换，这些操作本身也会带来一些开销。类型转换会导致额外的计算时间和内存开销。
+\end{enumerate}
+
+
+
 
 
 \subsubsection{手动实现算法的评价}
@@ -1062,7 +1076,9 @@ KNN的改进：
 
 
 \subsection{MindSpore 学习使用心得体会}
-
+在这个实验中，我们使用了mindspore.numpy来代替原有的numpy实现了朴素贝叶斯算法。我感觉mindspore的使用还是不如直接用numpy方便，
+因为mindspore.mumpy中没有frombuffer这个属性，所以在读取MNIST数据集时，我是使用numpy来读取数据，然后再转换成mindspore.Tensor。
+但是这个示例为我深入理解mindspore的操作提供了一个很好的机会。
 
 
 \subsection{代码附录}
@@ -1164,36 +1180,49 @@ KNN的改进：
       plt.show()
   
 \end{lstlisting}
-\subsubsection{naive\_bayes\_mindspore.ipynb(TBD)}
+\subsubsection{naive\_bayes\_mindspore.ipynb}
 \begin{lstlisting}[language=Python]
-  import numpy as np
   import struct
   import gzip
   import matplotlib.pyplot as plt
-  import mindspore
+  import numpy as np  # 用于从缓冲区读取数据
+  import mindspore.context as context
+  import mindspore.numpy as mnp
+  import mindspore.ops as ops
   from mindspore import Tensor
-  from mindspore.dataset import vision
+  
+  # 设置MindSpore的运行环境
+  context.set_context(mode=context.GRAPH_MODE, device_target="CPU")
   
   def read_images(file_path):
       with gzip.open(file_path, 'rb') as f:
+          # 读取文件头信息：魔数和图片数量
           magic, num_images = struct.unpack(">II", f.read(8))
+          # 读取图片的行数和列数
           num_rows, num_cols = struct.unpack(">II", f.read(8))
           print(f"Magic number: {magic}, Number of images: {num_images}, Rows: {num_rows}, Columns: {num_cols}")
-          images = np.frombuffer(f.read(), dtype=np.uint8).reshape(num_images, num_rows, num_cols)
-          return images
+          # 读取图片数据
+          buffer = f.read()
+          images = np.frombuffer(buffer, dtype=np.uint8).reshape(num_images, num_rows, num_cols)
+          return Tensor(images, dtype=mnp.float32)
   
   def read_labels(file_path):
       with gzip.open(file_path, 'rb') as f:
+          # 读取文件头信息：魔数和标签数量
           magic, num_labels = struct.unpack(">II", f.read(8))
           print(f"Magic number: {magic}, Number of labels: {num_labels}")
-          labels = np.frombuffer(f.read(), dtype=np.uint8)
-          return labels
+          # 读取标签数据
+          buffer = f.read()
+          labels = np.frombuffer(buffer, dtype=np.uint8)
+          return Tensor(labels, dtype=mnp.int32)
   
+  # 设置数据集文件路径
   train_images_path = 'data/train-images-idx3-ubyte.gz'
   train_labels_path = 'data/train-labels-idx1-ubyte.gz'
   test_images_path = 'data/t10k-images-idx3-ubyte.gz'
   test_labels_path = 'data/t10k-labels-idx1-ubyte.gz'
   
+  # 读取数据集
   X_train = read_images(train_images_path)
   y_train = read_labels(train_labels_path)
   X_test = read_images(test_images_path)
@@ -1204,12 +1233,17 @@ KNN的改进：
   print(f"Test data shape: {X_test.shape}")
   print(f"Test labels shape: {y_test.shape}")
   
-  X_train = X_train / 255.0
-  X_test = X_test / 255.0
+  # 将数据转换为mindspore.numpy数组
+  X_train = mnp.array(X_train) / 255.0
+  X_test = mnp.array(X_test) / 255.0
+  y_train = mnp.array(y_train)
+  y_test = mnp.array(y_test)
   
-  X_train = (X_train > 0.5).astype(int)
-  X_test = (X_test > 0.5).astype(int)
+  # 将图像二值化
+  X_train = (X_train > 0.5).astype(mnp.float32)
+  X_test = (X_test > 0.5).astype(mnp.float32)
   
+  # 将图像展开成一维向量
   X_train = X_train.reshape(X_train.shape[0], -1)
   X_test = X_test.reshape(X_test.shape[0], -1)
   
@@ -1220,35 +1254,42 @@ KNN的改进：
           self.feature_probs = {}
   
       def fit(self, X, y):
-          self.classes = np.unique(y)
+          self.classes = mnp.unique(y)
           n_samples, n_features = X.shape
   
           for cls in self.classes:
-              X_cls = X[y == cls]
-              self.class_priors[cls] = X_cls.shape[0] / n_samples
-              self.feature_probs[cls] = (X_cls.sum(axis=0) + 1) / (X_cls.shape[0] + 2)
+              indices = mnp.where(y == cls, mnp.ones_like(y), mnp.zeros_like(y)).astype(bool)
+              X_cls = X[indices]
+              self.class_priors[int(cls.asnumpy())] = X_cls.shape[0] / n_samples
+              self.feature_probs[int(cls.asnumpy())] = (X_cls.sum(axis=0) + 1) / (X_cls.shape[0] + 2)
   
       def predict(self, X):
           posteriors = []
           for x in X:
               posterior_probs = {}
               for cls in self.classes:
-                  prior = np.log(self.class_priors[cls])
-                  conditional = np.sum(np.log(self.feature_probs[cls]) * x + np.log(1 - self.feature_probs[cls]) * (1 - x))
-                  posterior_probs[cls] = prior + conditional
+                  cls_int = int(cls.asnumpy())
+                  prior = mnp.log(Tensor(self.class_priors[cls_int], dtype=mnp.float32))
+                  conditional = mnp.sum(mnp.log(Tensor(self.feature_probs[cls_int], dtype=mnp.float32)) * x + mnp.log(1 - Tensor(self.feature_probs[cls_int], dtype=mnp.float32)) * (1 - x))
+                  posterior_probs[cls_int] = prior + conditional
               posteriors.append(max(posterior_probs, key=posterior_probs.get))
-          return np.array(posteriors)
+          return mnp.array(posteriors)
   
+  # 实例化朴素贝叶斯分类器
   nb = NaiveBayes()
   
+  # 对数据进行训练
   nb.fit(X_train, y_train)
   
+  # 对测试数据进行预测
   y_pred = nb.predict(X_test)
-  accuracy = np.mean(y_pred == y_test)
-  print(f"Accuracy: {accuracy:.4f}")
+  accuracy = mnp.mean((y_pred == y_test).astype(mnp.float32))
+  print(f"Accuracy: {accuracy.asnumpy():.4f}")
   
+  # 可视化部分预测结果
   import random
   
+  # 随机选择10个测试样本
   indices = random.sample(range(X_test.shape[0]), 10)
   images = X_test[indices].reshape(-1, 28, 28)
   true_labels = y_test[indices]
@@ -1257,11 +1298,11 @@ KNN的改进：
   plt.figure(figsize=(10, 10))
   for i in range(10):
       plt.subplot(5, 5, i + 1)
-      plt.imshow(images[i], cmap='gray')
-      plt.title(f"True: {true_labels[i]}\nPred: {pred_labels[i]}")
+      plt.imshow(images[i].asnumpy(), cmap='gray')
+      plt.title(f"True: {true_labels[i].asnumpy()}\nPred: {pred_labels[i].asnumpy()}")
       plt.axis('off')
   plt.tight_layout()
-  plt.show()
+  plt.show()  
   
 \end{lstlisting}
 
@@ -1576,10 +1617,10 @@ BP神经网络的数学模型如图~\ref{fig:fcnn_structure} 所示。
     \For{每个mini-batch}
     \State \textbf{前向传播}:
     \State \quad 设输入$\mathbf{X}$
-    \State \quad 计算第一层的输出和激活值:
+    \State \quad 计算隐藏层的输出和激活值:
     \State \quad \quad $\mathbf{Z1} = \mathbf{X} \mathbf{W1} + \mathbf{b1}$
     \State \quad \quad $\mathbf{A1} = \max(0, \mathbf{Z1})$ \Comment{ReLU激活函数}
-    \State \quad 计算第二层的输出和激活值:
+    \State \quad 计算输出层的输出和激活值:
     \State \quad \quad $\mathbf{Z2} = \mathbf{A1} \mathbf{W2} + \mathbf{b2}$
     \State \quad \quad $\mathbf{A2} = \text{softmax}(\mathbf{Z2})$
     \State \textbf{计算损失}:
