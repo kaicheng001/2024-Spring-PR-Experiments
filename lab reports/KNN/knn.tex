@@ -936,26 +936,25 @@ KNN的改进：
     \State 定义特征概率 $feature\_probs$
 
     \Procedure{fit}{X, y}
-    \State 获取唯一类别 $classes = \text{np.unique}(y)$
+    \State $classes = \text{np.unique}(y)$
     \For{每个类别 $cls$ in $classes$}
-    \State 获取属于类别 $cls$ 的样本 $X_{cls}$
-    \State 计算先验概率:
-    \[P(cls) = \frac{|X_{cls}|}{|X|}\]
-    \State 计算特征条件概率:
-    \[P(x_i | cls) = \frac{\sum X_{cls,i} + 1}{|X_{cls}| + 2}\]
+    \State $X_{cls} = X[y == cls]$
+    \State $P(cls) = \frac{|X_{cls}|}{|X|}$
+    \State $P(x_i | cls) = \frac{\sum X_{cls,i} + 1}{|X_{cls}| + 2}$
     \EndFor
     \EndProcedure
+
     \Procedure{predict}{X}
     \For{每个样本 $x$ in X}
     \For{每个类别 $cls$ in $classes$}
-    \State 计算后验概率:
-    \[\log P(cls | x) = \log P(cls) + \sum (\log P(x_i | cls) \times x_i + \log (1 - P(x_i | cls)) \times (1 - x_i))\]
+    \State $\log P(cls | x) = \log P(cls) + \sum (\log P(x_i | cls) \times x_i + \log (1 - P(x_i | cls)) \times (1 - x_i))$
     \EndFor
     \State 选择最大后验概率对应的类别
     \EndFor
     \EndProcedure
   \end{algorithmic}
 \end{algorithm}
+
 
 \subsection{实验结果与分析}
 \subsubsection{手动实现朴素贝叶斯算法}
