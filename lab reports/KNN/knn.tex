@@ -1725,7 +1725,7 @@ BP神经网络的数学模型如图~\ref{fig:fcnn_structure} 所示。
 \end{figure}
 \subsubsection{手动实现BP神经网络算法和基于Mindspore实现神经网络算法的对比}
 \begin{enumerate}
-  \item \textbf{准确率对比}：基于Mindspore实现的神经网络在CIFAR-10数据集上的准确率约为\textbf{53\%}，
+  \item \textbf{准确率对比}：基于Mindspore实现的神经网络在CIFAR-10数据集上的准确率约为\textbf{53\%}，如图~\ref{add1} 所示，
         高于手动实现的算法的准确率\textbf{50\%}。
   \item \textbf{收敛速度对比}：基于Mindspore实现的神经网络在CIFAR-10数据集上的收敛速度较快，
         仅需\textbf{10}个epoch即可收敛，而手动实现的算法需要\textbf{100}个epoch才能收敛。
@@ -1734,6 +1734,19 @@ BP神经网络的数学模型如图~\ref{fig:fcnn_structure} 所示。
   \item \textbf{优化算法对比}：基于Mindspore实现的神经网络使用了SGD、Adam等高级的优化算法，收敛速度更快，性能更好。
   \item \textbf{超参数调优对比}：基于Mindspore实现的神经网络中的超参数经过充分调优，模型性能更佳。
 \end{enumerate}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[scale=0.65]{figures/nn/loss_and_acc_mindspore.png}
+  \caption{基于Mindspore实现的神经网络在CIFAR-10数据集上的Loss和Accuracy曲线}
+  \label{add1}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[scale=0.65]{figures/nn/matrix_mindspore.png}
+  \caption{基于Mindspore实现的神经网络在CIFAR-10数据集上的混淆矩阵}
+  \label{add2}
+\end{figure}
 
 %下面需要分析出现上面的差异可能的原因
 出现上述差异可能的原因如下：
